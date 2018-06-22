@@ -1,0 +1,55 @@
+{% load static %}
+<header class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2 col-sm-2">
+                <a href="" class="logoHeader">
+                    <img src="{% static 'images/logo2.png' %}" alt="logo" class="logoImg">
+                </a>
+            </div>
+            <div class="col-md-6 col-sm-6">
+                <ul class="topMenu">
+                    <li class="closeMenu">&times;</li>
+                    <li><a href="">Главная</a></li>
+                    <li class="products"><a href="">продукты</a>
+                        <div class="menu2">
+                            <ul class="droppedMenu">
+                                <li><a href="">Men</a></li>
+                                <li><a href="">Women</a></li>
+                                <li><a href="">Men</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li><a href="">о нас</a></li>
+                    <li><a href="">контакты</a></li>
+                </ul>
+                <div class="mobileMenu">
+                    <span class="line"></span>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-4">
+                <div class="search">
+                    <input type="text" placeholder="Search" class="searchbox" id="search">
+                    <img src="{% static 'images/ellipse.png' %}" alt="" class="ellipse">
+                    <div class="cart">
+                        <img src="{% static 'images/cart.png' %}"  alt="">
+                        <div id="cart-block">
+                            <div class="items">
+                                <span class="title">Lorem ipsum is a Pseudo-Latin</span>
+                                <span class="price">$29.99</span>
+                            </div>
+                            <div class="order-total">
+                                <span class="order-total-name">Итог заказа</span>
+                                <span class="order-total-sum">0</span>
+                            </div>
+                            <div class="buttons">
+                                <a href="#" class="view-cart">Посмотреть корзину</a>
+                                <a href="" class="checkout">Оформление заказа</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
