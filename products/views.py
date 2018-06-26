@@ -58,26 +58,32 @@ class ProductFilter(django_filters.FilterSet):
 class ProductListView(ListView):
     template_name = 'pages/product/product_list.html'
     model = Product
-    paginate_by = 60
+    paginate_by = 12
 
     def get_category(self):
         try:
             category = Category.objects.get(translations__slug=self.kwargs.get('slug'))
         except Category.DoesNotExist:
+            print('not found')
             raise Http404
         return category
 
     def get_queryset(self):
         queryset = self.model.objects.all()
-        category = self.get_category()
-        queryset = queryset.filter(category__in=[cat_item.id for cat_item in category.get_family()])
+        if self.kwargs.get('slug'):
+            category = self.get_category()
+            queryset = queryset.filter(category__in=[cat_item.id for cat_item in category.get_family()])
         if self.request.GET.get('order_by'):
             queryset = queryset.order_by(ProductFilter.SORTING_RULES.get(self.request.GET.get('order_by'))).distinct()
-        return queryset
+        return queryset.exclude(is_sale=True)
 
     def get_context_data(self, **kwargs):
         context = super(ProductListView, self).get_context_data(**kwargs)
-        context['current_category'] = self.get_category()
+        context['category_list'] = Category.objects.filter(parent__isnull=True)
+        slug = self.kwargs.get('slug')
+        if slug:
+            context['current_category'] = self.get_category()
+        context['sale_products'] = Product.objects.filter(is_sale=True)
         return context
 
 
@@ -107,19 +113,18 @@ class ProductDetail(DetailView, ProcessFormView):
         return self.render_to_response(context=context)
 
 
-class CartView(TemplateView):
-    template_name = 'pages/cart.html'
-
-
 class SearchView(ListView):
     template_name = 'pages/search.html'
     model = Product
+    paginate_by = 10
 
     def get_queryset(self):
         qs = super().get_queryset()
-        if self.request.GET.get('search', None):
-            searched_text = self.request.GET.get('search', None)
-            qs = qs.filter(name__contains=searched_text).filter(category__translations__name__contains=searched_text).filter(description__contains=searched_text).filter(characters__contains=searched_text)
+        query_string = self.request.GET.get('q', None)
+        if query_string:
+            lower_case_string = query_string.lower()
+            query = Q(name__contains=query_string) | Q(category__translations__name__contains=query_string) | Q(description__contains=query_string) | Q(name__contains=lower_case_string) | Q(category__translations__name__contains=lower_case_string) | Q(description__contains=lower_case_string)
+            qs = qs.filter(query)
         else:
             qs = list()
         return qs

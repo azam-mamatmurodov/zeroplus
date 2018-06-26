@@ -24,10 +24,11 @@ urlpatterns = [
 urlpatterns += solid_i18n_patterns(
     url(r'^admin/', admin.site.urls),
     url(r'^admin/rosetta/', include('rosetta.urls')),
-    url(r'', include('main.urls', namespace='main')),
-    url(r'', include('products.urls', namespace='products')),
+    url(r'^products/', include('products.urls', namespace='products')),
+    url(r'^order/', include('orders.urls', namespace='orders')),
     url(r'', include('users.urls', namespace='users')),
-)
+    url(r'', include('main.urls', namespace='main')),
+    )
 
 
 if settings.DEBUG:

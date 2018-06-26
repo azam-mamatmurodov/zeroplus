@@ -1,0 +1,14 @@
+<h3 class="page-title text-center">
+    {{ page_title }}
+</h3>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 breadcrumbs">
+            {% for path in paths %}
+                <a href="{{ path.path }}" class="{% if forloop.last %}last{% endif %}">
+                    {{ path.title }}
+                </a> {% if not forloop.last %} <span>&blacktriangleright;</span> {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>

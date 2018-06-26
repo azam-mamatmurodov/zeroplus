@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
-{% load static %}
-
+{% load static thumbnail i18n %}
+{% block title %}
+{{ site_name }} | {% trans 'Home page' %}
+{% endblock %}
 {% block content %}
 {{ header }}
 <div class="slider2">
@@ -85,72 +87,18 @@
 <div class="goods">
     <div class="container">
         <div class="row">
-            <div class="col-md-3 col-sm-6">
-                <div class="block">
-                    <img src="{% static 'images/1417.png' %}" alt="" class="bImg">
-                    <p class="blockTxt">Lorem ipsum is a Pseudo-Latin</p>
-                    <p class="bText">$29.99</p>
-                    <button class="addToCart">Add to cart</button>
+            {% for top_product in top_products %}
+                <div class="col-md-3 col-sm-6">
+                    <div class="block">
+                        <a href="{{ top_product.get_absolute_url }}">
+                            <img src="{% thumbnail top_product.get_default_image.file 261x244 crop %}" alt="" class="bImg">
+                            <p class="blockTxt">{{ top_product.name }}</p>
+                        </a>
+                        <p class="bText">{{ top_product.get_price }}</p>
+                        <button class="addToCart">{% trans 'Add to cart' %}</button>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="block">
-                    <img src="{% static 'images/5.png' %}" alt="" class="bImg">
-                    <p class="blockTxt">Lorem ipsum is a Pseudo-Latin</p>
-                    <p class="bText">$29.99</p>
-                    <button class="addToCart">Add to cart</button>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="block">
-                    <img src="{% static 'images/3.png' %}" alt="" class="bImg">
-                    <p class="blockTxt">Lorem ipsum is a Pseudo-Latin</p>
-                    <p class="bText">$29.99</p>
-                    <button class="addToCart">Add to cart</button>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="block">
-                    <img src="{% static 'images/4.png' %}" alt="" class="bImg">
-                    <p class="blockTxt">Lorem ipsum is a Pseudo-Latin</p>
-                    <p class="bText">$29.99</p>
-                    <button class="addToCart">Add to cart</button>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3 col-sm-6">
-                <div class="block">
-                    <img src="{% static 'images/6.png' %}" alt="" class="bImg">
-                    <p class="blockTxt">Lorem ipsum is a Pseudo-Latin</p>
-                    <p class="bText">$29.99</p>
-                    <button class="addToCart">Add to cart</button>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="block">
-                    <img src="{% static 'images/7.png' %}" alt="" class="bImg">
-                    <p class="blockTxt">Lorem ipsum is a Pseudo-Latin</p>
-                    <p class="bText">$29.99</p>
-                    <button class="addToCart">Add to cart</button>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="block">
-                    <img src="{% static 'images/8.png' %}" alt="" class="bImg">
-                    <p class="blockTxt">Lorem ipsum is a Pseudo-Latin</p>
-                    <p class="bText">$29.99</p>
-                    <button class="addToCart">Add to cart</button>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="block">
-                    <img src="{% static 'images/9.png' %}" alt="" class="bImg">
-                    <p class="blockTxt">Lorem ipsum is a Pseudo-Latin</p>
-                    <p class="bText">$29.99</p>
-                    <button class="addToCart">Add to cart</button>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </div>

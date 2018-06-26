@@ -1,8 +1,176 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static humanize i18n thumbnail product_extras %}
+
+{% block title %}
+    {{ site_name }} |
+    {% if current_category %}
+        {{ current_category.name }}
+    {% else %}
+        {% trans 'All products' %}
+    {% endif %}
+{% endblock %}
 
 {% block content %}
-{{ header }}
+    {{ header }}
+    {{ breadcrumbs }}
+    <div class="goods">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <h4 class="text-center">{% trans 'Category' %}</h4>
+                    <div class="list-group list-group-root well">
+                        {% for category in category_list %}
+                            <a
+                                    href="#item-{{ forloop.counter0 }}"
+                                    class="list-group-item {% if current_category|is_active_category:category %}collapsed{% endif %}"
+                                    data-toggle="collapse"
+                            >
+                                <i class="glyphicon glyphicon-chevron-{% if current_category|is_active_category:category %}down{% else %}right{% endif %}"></i>
+                                {{ category.name }}
+                            </a>
+                            <div class="list-group collapse {% if current_category|is_active_category:category %}in{% endif %}" id="item-{{ forloop.counter0 }}">
+                                <a
+                                        href="{{ category.get_absolute_url }}"
+                                        class="list-group-item {% if current_category.slug == category.slug %}active{% endif %}"
+                                >
+                                    {% trans 'See all' %} {{ category.name|lower }}
+                                </a>
+                                {% for child_category in category.get_children %}
+                                    <a
+                                            href="{{ child_category.get_absolute_url }}"
+                                            class="list-group-item {% if current_category.slug == child_category.slug %}active{% endif %}"
+                                    >
+                                        {{ child_category.name }}
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    {% for product in product_list %}
+                        <div class="col-md-4 col-sm-6">
+                            <div class="block">
+                                <a href="{{ product.get_absolute_url }}">
+                                    <img
+                                            alt="{{ product.name }}"
+                                            title="{{ product.name }}"
+                                            src="{% thumbnail product.get_default_image.file 250x250 crop %}"
+                                            class="bImg"
 
-{{ footer }}
+                                    >
+                                    <p class="blockTxt">
+                                        {{ product.name }}
+                                    </p>
+                                </a>
+                                <p class="bText">{{ product.get_price }}</p>
+                                <button class="addToCart cart_add" data-image="{{ product.get_default_image.file.url }}" data-product="{{ product.id }}">
+                                    {% trans 'Add to cart' %}
+                                </button>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="alert alert-danger">
+                            {% trans 'Sorry by your request products not found' %}
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+        {% include 'parts/pagination.html' %}
+    </div>
+    {% if sale_products.exists %}
+        <div class="saleBlock">
+            <div class="container">
+                <p class="saleTitle">-30% OFF Sale</p>
+                <div class="slider1">
+                    <div class="newSlider owl-carousel" id="slider1">
+                        {% for sale_product in sale_products %}
+                            <div class="item">
+                                <div class="block2">
+                                    <a href="{{ sale_product.get_absolute_url }}">
+                                        <img src="{{ sale_product.get_default_image.file.url }}" alt="{{ sale_product.name }}">
+                                        <p class="blockTxt">
+                                            {{ sale_product.name }}
+                                        </p>
+                                    </a>
+                                    <p class="bText">
+                                        <span>
+                                            <del> {{ sale_product.get_price }}</del>
+                                        </span>
+                                        {{ sale_product.price|get_sale_price|intcomma }} {% trans 'soum' %}
+                                    </p>
+                                    <button class="addToCart  cart_add" data-image="{{ sale_product.get_default_image.file.url }}" data-product="{{ sale_product.id }}">
+                                        {% trans 'Add to cart' %}
+                                    </button>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {{ footer }}
+{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<style>
+.just-padding {
+    padding: 15px;
+}
+
+.list-group.list-group-root {
+    padding: 0;
+    overflow: hidden;
+}
+
+.list-group.list-group-root .list-group {
+    margin-bottom: 0;
+}
+
+.list-group.list-group-root .list-group-item {
+    border-radius: 0;
+    border-width: 1px 0 0 0;
+}
+
+.list-group.list-group-root > .list-group-item:first-child {
+    border-top-width: 0;
+}
+
+.list-group.list-group-root > .list-group > .list-group-item {
+    padding-left: 30px;
+}
+
+.list-group.list-group-root > .list-group > .list-group > .list-group-item {
+    padding-left: 45px;
+}
+
+.list-group-item .glyphicon {
+    margin-right: 5px;
+}
+</style>
+
+{% endblock %}
+{% block js %}
+
+<script>
+    $(function () {
+        $('.products').addClass('active');
+        $('a.list-group-item').on('click', function () {
+            var current_class = 'glyphicon-chevron-right',
+                new_class = 'glyphicon-chevron-down';
+
+            if ($(this).hasClass('collapsed'))
+            {
+                current_class = 'glyphicon-chevron-down',
+                new_class = 'glyphicon-chevron-right';
+            }
+            $('.glyphicon', this)
+                .toggleClass(current_class)
+                .toggleClass(new_class);
+        });
+    });
+</script>
 {% endblock %}

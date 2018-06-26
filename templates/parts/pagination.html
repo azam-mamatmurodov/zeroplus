@@ -1,0 +1,42 @@
+{% load product_extras %}
+{% if is_paginated %}
+    <div class="pagination_block">
+        <ul class="pagination" >
+            {% if page_obj.has_previous %}
+                <li><a href="?{{ request|parse_url:page_obj.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+                <li class="disabled"><span>&laquo;</span></li>
+            {% endif %}
+            {% for page in paginator.page_range %}
+                {% if page <= page_obj.number|add:5 and page >= page_obj.number|add:-5 %}
+                    <li class="{% if page == page_obj.number %}active{% endif %}">
+                        <a href="?{{ request|parse_url:page }}">{{ page }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <li><a href="?{{ request|parse_url:page_obj.next_page_number }}">&raquo;</a></li>
+            {% else %}
+                <li class="disabled"><span>&raquo;</span></li>
+            {% endif %}
+        </ul>
+    </div>
+    <style>
+        ul.pagination {
+            display: block;
+        }
+
+        .pagination li {
+            padding: 5px;
+        }
+
+        .pagination_block {
+            text-align: center;
+            display: block;
+        }
+
+        ul.pagination li {
+            display: inline-block;
+        }
+    </style>
+{% endif %}

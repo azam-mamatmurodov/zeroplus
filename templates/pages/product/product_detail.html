@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load thumbnail i18n static humanize product_extras %}
+{% block title %}{{ site_name }} | {{ object.name }}{% endblock %}
+
+{% block content %}
+    {{ header }}
+    {{ breadcrumbs }}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="xzoom-container">
+                    <div class="img-box">
+                        <img
+                                class="xzoom"
+                                id="xzoom-default"
+                                src="{% thumbnail product.get_default_image.file 480x350 crop %}"
+                                xoriginal="{{ product.get_default_image.file.url }}"
+                                title="{{ product.name }}"
+                        />
+                    </div>
+                    <div class="xzoom-thumbs">
+                        {% for image in product.get_all_images %}
+                            <a href="{{ image.file.url }}">
+                                <img
+                                        class="xzoom-gallery"
+                                        style="width: 80px; height: 80px;"
+                                        src="{% thumbnail image.file 480x350 crop %}"
+                                        xoriginal="{{ image.file.url }}"
+                                        title="{{ product.name }}"
+                                >
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="description">
+                    <table class="shop_attributes">
+                        <tbody>
+                        <tr>
+                            <td>{% trans 'Price' %}:</td>
+                            <td>
+                                {% if product.is_sale %}
+                                    <span class="real_price">
+                                        {{ product.get_price }}
+                                    </span>
+                                    <span class="sale_price">
+                                        {{ product.price|get_sale_price|intcomma }}
+                                    </span>
+                                {% else %}
+                                    {{ product.get_price }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                            {% if product.colors.all %}
+                                <tr>
+                                    <td>{% trans 'Colors' %}:</td>
+                                    <td>
+                                        {% for color in product.colors.all %}
+                                            <div title="{{ color.name }}" style="display: inline-block; background-color: {{ color.color }}; width: 20px; height: 20px;"></div>
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+                            {% endif %}
+                            {% if product.sizes.all %}
+                                <tr>
+                                    <td>{% trans 'Sizes' %}:</td>
+                                    <td>
+                                        {% for size in product.sizes.all %}
+                                            {{ size }}{% if not forloop.last %},{% endif %}
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+                            {% endif %}
+                            <tr>
+                                <td>{% trans 'Available in stock' %}:</td>
+                                <td>{{ product.quantity }} {% trans 'pcs' %}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    {{ product.description|safe }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <form action="">
+                        <div class="form-group">
+                            <button type="button" class="btn addToCart pull-right cart_add" data-image="{{ product.get_default_image.file.url }}" data-product="{{ product.id }}">
+                                {% trans 'Add to cart' %}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ footer }}
+{% endblock %}
+{% block css %}
+    <style>
+    </style>
+{% endblock %}

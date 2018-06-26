@@ -1,6 +1,7 @@
-from django.views.generic import TemplateView, DetailView, ListView
+from django.views.generic import TemplateView, DetailView, ListView, CreateView
+from django.shortcuts import reverse
 
-from main.models import Static, Banner, News
+from main.models import Static, Banner, News, Contact
 from products.models import Category, Product
 
 from parler.views import ViewUrlMixin, TranslatableSlugMixin
@@ -13,7 +14,7 @@ class HomeView(TemplateView):
         context = super(HomeView, self).get_context_data(**kwargs)
         context['categories'] = Category.objects.filter(parent__isnull=True).order_by('order')
         context['banners'] = Banner.objects.all().order_by('order')
-        context['top_products'] = Product.objects.all()
+        context['top_products'] = Product.objects.filter(is_recommended=True)
         return context
 
 
@@ -34,3 +35,12 @@ class NewsListView(ListView):
 class NewsDetailView(TranslatableSlugMixin, DetailView):
     model = News
     template_name = 'pages/news_detail.html'
+
+
+class ContactView(CreateView):
+    template_name = 'pages/contact.html'
+    model = Contact
+    fields = ['first_name', 'last_name', 'email', 'subject', 'text']
+
+    def get_success_url(self):
+        return reverse('main:contact')

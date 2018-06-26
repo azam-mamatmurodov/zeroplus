@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% load i18n humanize %}
+{% block title %}{{ site_name }} | {{ object.name }}{% endblock %}
+
+{% block content %}
+    {{ header }}
+    {{ breadcrumbs }}
+    <div id="cart_page" class="container">
+        <div class="row">
+            <section id="cart-content">
+                <div id="page-title">
+                    {% trans 'Cart items' %} ({{ cart_items.count }})
+                </div>
+                <div class="checkoutCartTable">
+                    <ul class="cart-header-row">
+                        <li><span class="tri"></span>{% trans 'Product' %}</li>
+                        <li><span class="tri"></span>{% trans 'Title' %}</li>
+                        <li><span class="tri"></span>{% trans 'Quantity' %}</li>
+                        <li><span class="tri"></span>{% trans 'Price' %}</li>
+                        <li><span class="tri"></span>{% trans 'Total price' %}</li>
+                    </ul>
+                    <div id="tbody">
+                        {% for cart_item in cart_items %}
+                            <div class="cart-item-row">
+                                <div class="cart-product-picture">
+                                    <a
+                                            href="{{ cart_item.product.get_absolute_url }}"
+                                            title="{{ cart_item.product.name }}"
+                                    >
+                                        <img
+
+                                                src="{{ cart_item.product.get_default_image.file.url }}"
+                                                class="FR"
+                                                alt="{{ cart_item.product.name }}">
+                                    </a>
+                                </div>
+                                <div class="cart-product-item">
+                                    <a
+                                            href="{{ cart_item.product.get_absolute_url }}"
+                                            title="{{ cart_item.product.name }}">
+                                        {{ cart_item.product.name }} {{ cart_item.name }}
+                                        {{ cart_item.product.volume }}{% if cart_item.color %},
+                                            {{ cart_item.color.name }}{% endif %}
+                                    </a>
+                                </div>
+                                <div class="cart-product-quantity">
+                                    <div class="quantity">
+                                        <span class="actions minus_cart_item"><i class="fa fa-minus-circle"></i></span>
+                                        <input
+                                                id="item_quantity_{{ cart_item.id }}"
+                                                class="change_price_cart_item"
+                                                data-price="{{ cart_item.price|floatformat|intcomma }}"
+                                                type="text"
+                                                name="quantity"
+                                                value="{{ cart_item.count }}"
+                                                min="1"
+                                                max="{{ cart_item.product.quantity }}"
+                                                data-cart_item_id="{{ cart_item.id }}"
+                                                disabled
+                                        >
+                                        <span class="actions plus_cart_item"><i class="fa fa-plus-circle"></i></span>
+                                    </div>
+                                    <span
+                                            class="actions delete_item"
+                                            data-cart_item_id="{{ cart_item.id }}"
+                                    ><i class="fa fa-times"></i></span>
+                                </div>
+                                <div class="cart-product-price">
+                                    <strong>
+                                        <span class="price_total">
+                                            {{ cart_item.product.price|floatformat|intcomma }}
+                                        </span>
+                                        {% trans 'sum' %}
+                                    </strong>
+                                </div>
+                                <div class="cart-product-subtotal end">
+                                    <strong>
+                                        <span class="productPrice">{{ cart_item.total_price|floatformat|intcomma }}</span>
+                                        {% trans 'sum' %}</strong>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% if cart_items.count %}
+                    <div id="right">
+                        <section id="checkout">
+                            <div class="itog">
+                                <h5>{% trans 'Total price' %}</h5>
+                                <h2>
+                                    <div id="total_price">{{ total_amount|floatformat|intcomma }} {% trans 'sum' %}</div>
+                                </h2>
+                                <a id="order_button" href="{% url 'orders:checkout' %}">{% trans 'Checkout' %}</a>
+                            </div>
+                        </section>
+                    </div>
+                {% endif %}
+            </section>
+        </div>
+
+
+    </div>
+    {{ footer }}
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        $(document).ready(function () {
+
+            function send_and_set_data(count, cart_item_id, elem) {
+                console.log(cart_item_id);
+                $.ajax({
+                    type: 'PATCH',
+                    url: '/api/v1/cart/' + cart_item_id + '/update/',
+                    data: {'count': count},
+                    success: function (resp) {
+                        $.notify(resp.message, 'success');
+
+                        var data = resp.data;
+                        var parent_elem = elem.parent().parent('.cart-product-quantity');
+                        parent_elem.siblings('.cart-product-subtotal').find('.productPrice').text(data.total_price);
+                        console.log(data.weight)
+                        parent_elem.siblings('.weight').text(data.total_weight);
+
+                    },
+                    error: function (xhr, msg) {
+                        console.log(xhr);
+                    }
+                });
+                setTimeout(function () {
+                    $.getJSON('/api/v1/cart/', function (resp) {
+                        var total_price = resp.total_price;
+                        $('#total_price').text(total_price);
+                    })
+                }, 300);
+                $.get("{% url 'api:cart_list' %}", function (resp) {
+                    $('#cart-block').html(resp);
+                });
+            }
+
+            $('.plus_cart_item').click(function () {
+                var sibling_input = $(this).siblings('input');
+
+                var cart_item_id = sibling_input.data('cart_item_id');
+
+                var input_val = parseInt(sibling_input.val());
+                var max = parseInt(sibling_input.attr('max'));
+                var count = input_val + 1;
+                if (count > max) {
+                    sibling_input.css({
+                        'border': '1px solid red'
+                    });
+                }
+                else {
+                    send_and_set_data(count, cart_item_id, $(this));
+                    sibling_input.val(count);
+                    sibling_input.css({
+                        'border': 'none'
+                    });
+                }
+            });
+            $('.minus_cart_item').click(function () {
+                var sibling_input = $(this).siblings('input');
+                var cart_item_id = sibling_input.data('cart_item_id');
+
+                var input_val = parseInt(sibling_input.val());
+                var min = parseInt(sibling_input.attr('min'));
+                var count = input_val - 1;
+                if (count < min) {
+                    sibling_input.css({
+                        'border': '1px solid red'
+                    });
+                }
+                else {
+                    send_and_set_data(count, cart_item_id, $(this));
+                    sibling_input.val(count);
+                    sibling_input.css({
+                        'border': 'none'
+                    });
+                }
+            });
+
+
+        })
+    </script>
+
+{% endblock %}

@@ -13,6 +13,7 @@ from parler.managers import TranslationManager
 from ckeditor_uploader.fields import RichTextUploadingField
 from filer.fields.image import FilerImageField
 from autoslug.fields import AutoSlugField
+from colorfield.fields import ColorField
 
 
 class Category(MPTTModel, TranslatableModel):
@@ -58,6 +59,26 @@ class Category(MPTTModel, TranslatableModel):
         return Product.objects.filter(category__in=cats)
 
 
+
+class Color(TranslatableModel):
+    translations = TranslatedFields(
+        name=models.CharField(max_length=60)
+    )
+    color = ColorField()
+
+    def __str__(self):
+        return "{}".format(self.safe_translation_getter('name'))
+
+
+class Size(TranslatableModel):
+    translations = TranslatedFields(
+        name=models.CharField(max_length=60)
+    )
+
+    def __str__(self):
+        return "{}".format(self.safe_translation_getter('name'))
+
+
 class Brands(models.Model):
     name = models.CharField(max_length=60, verbose_name=_('Name'))
     logo = FilerImageField(null=True, verbose_name=_('Logo'))
@@ -86,32 +107,35 @@ class Product(models.Model):
     name = models.CharField(max_length=120, verbose_name=_('Product name'), )
     category = TreeForeignKey(Category, verbose_name=_('Category'), )
     brand = models.ForeignKey(Brands, verbose_name=_('Brand'), )
-    model = models.CharField(null=True, max_length=90, verbose_name=_('Product model'))
     description = RichTextUploadingField(blank=True, null=True, verbose_name=_('Description'), )
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('Product Owner'), related_name='products', )
     created_at = models.DateField(auto_now_add=True)
     available_in_stock = models.BooleanField(default=True, verbose_name=_('Available in stock'))
     is_recommended = models.BooleanField(default=False)
     price = models.DecimalField(default=Decimal(1), decimal_places=2, max_digits=10, verbose_name=_('Price'), )
+    is_sale = models.BooleanField(default=False)
     quantity = models.IntegerField(verbose_name=_('Quantity'))
     slug = AutoSlugField(populate_from=get_populate_from,
                          unique_with=['owner__first_name', 'created_at'],
                          slugify=get_slugify,
                          always_update=True,
                          null=True, )
+    colors = models.ManyToManyField(Color, blank=True)
+    sizes = models.ManyToManyField(Size, blank=True)
 
     def __str__(self):
         return "{}".format(self.name)
 
-
     def get_default_image(self):
-        return self.images.all().first()
+        return self.images.first()
 
     def get_all_images(self):
         return self.images.all()
 
     def get_price(self):
-        return self.price
+        currency = _('soum')
+        from django.contrib.humanize.templatetags.humanize import intcomma
+        return "{} {}".format(intcomma(self.price), currency)
 
     def get_reviews(self):
         return self.product_reviews.filter(is_approved=True)
@@ -144,3 +168,7 @@ class Review(models.Model):
 class FavoriteProduct(models.Model):
     product = models.ForeignKey(Product)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
+
+
+class Sale(models.Model):
+    percent = models.IntegerField()

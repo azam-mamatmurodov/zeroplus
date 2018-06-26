@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load i18n widget_tweaks %}
+
+{% block title %}{{ site_name }} | {% trans 'Contact us' %}{% endblock %}
+
+{% block content %}
+{{ header }}
+{{ breadcrumbs }}
+<div class="container">
+    <div class="row">
+        <div class="col-md-7">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6">
+                        {% trans 'First name' as first_name_label %}
+                        {% render_field form.first_name class='contactInput' placeholder=first_name_label %}
+                    </div>
+                    <div class="col-md-6">
+                        {% trans 'Last name' as last_name_label %}
+                        {% render_field form.last_name class='contactInput' placeholder=last_name_label %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        {% trans 'E-mail' as email_label %}
+                        {% render_field form.email class='contactInput' placeholder=email_label %}
+                    </div>
+                    <div class="col-md-6">
+                        {% trans 'Subject' as subject_label %}
+                        {% render_field form.subject class='contactInput' placeholder=subject_label %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        {% trans 'Your message' as text_label %}
+                        {% render_field form.text class='contactInput' placeholder=text_label %}
+                    </div>
+                </div>
+                <button class="submitContact">{% trans 'Submit' %}</button>
+            </form>
+        </div>
+        <div class="col-md-5">
+            <div class="map">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d23983.37359839453!2d69.22814144999998!3d41.28880855!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sru!2s!4v1528187264689" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+            </div>
+
+        </div>
+    </div>
+</div>
+{{ footer }}
+{% endblock %}

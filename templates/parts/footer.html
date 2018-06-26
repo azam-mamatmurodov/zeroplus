@@ -1,28 +1,45 @@
-{% load static %}
+{% load static i18n %}
 <footer class="footer">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-4 col-sm-4">
 				<div class="footerLogoBox">
-					<a href="#" class="logoFooter"><img src="{% static 'images/logo3.png' %}" alt="logo" class="logoImg2"></a>
+					<a href="{% url 'main:home' %}" class="logoFooter">
+                        <img src="{% static 'images/logo3.png' %}" alt="logo" class="logoImg2">
+                    </a>
 				</div>
 				
 			</div>
 			<div class="col-md-4 col-sm-4">
 				<div class="address">
-					<p>Lorem ipsum is a Pseudo-Latin</p>
-					<p>Lorem ipsum is a Pseudo-Latin</p>
-					<p>Lorem ipsum is a Pseudo-Latin</p>
-					<p>Lorem ipsum is a Pseudo-Latin</p>
+					{% for menu_item in menu_items %}
+                        <p>
+                            <a href="{% url 'main:static' slug=menu_item.slug %}">
+                                {{ menu_item.name }}
+                            </a>
+                        </p>
+                    {% endfor %}
 				</div>
 			</div>
 			<div class="col-md-4 col-sm-4">
 				<div class="location">
-					<p class="filial">Namangan shahri filiali</p>
+					<p class="filial">{% trans 'Namangan city branch' %}</p>
 					<ul>
-						<li><a href="" class="location-footer"> <span>lorem ipsum</span></a></li>
-						<li><a href="" class="phone"> <span>lorem ipsum</span></a></li>
-						<li><a href="" class="email"><span>lorem ipsum</span></a></li>
+						<li>
+                            <a href="" class="location-footer">
+                                <span>
+                                    {% blocktrans %}
+                                        Street Bog'ishamol, 12.
+                                    {% endblocktrans %}
+                                </span>
+                            </a>
+                        </li>
+						<li>
+                            <a href="tel:+998998389478" class="phone">
+                                <span>+998 99 8389478</span>
+                            </a>
+                        </li>
+						<li><a href="mailto:info@zeroplus.uz" class="email"><span>info@zeroplus.uz</span></a></li>
 					</ul>
 				</div>
 			</div>
@@ -30,7 +47,7 @@
 	</div>
 	<div class="bottomBlock">
 		<div class="container">
-			Copyright © 2017 www.UXer.Life  All rights reserved.
+			{% trans 'Copyright' %} © {{ now|date:'Y' }} {% trans 'All rights reserved' %}.
 		</div>
 	</div>
 </footer>

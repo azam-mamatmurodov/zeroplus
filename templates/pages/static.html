@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ site_name }} | {{ object.name }}{% endblock %}
+
+{% block content %}
+{{ header }}
+{{ breadcrumbs }}
+<div class="goods">
+    <div class="container">
+        <div class="row">
+            <div class="page_content">
+                {{ object.body|safe }}
+            </div>
+        </div>
+    </div>
+</div>
+{{ footer }}
+{% endblock %}

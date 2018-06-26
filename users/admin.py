@@ -15,7 +15,7 @@ from .models import User
 class UserAdmin(DjangoUserAdmin, admin.ModelAdmin):
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        (_('Personal info'), {'fields': ('first_name', 'last_name', 'image',  'phone',)}),
+        (_('Personal info'), {'fields': ('first_name', 'last_name', 'image',  'username',)}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
                                        'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login',)}),
@@ -23,15 +23,15 @@ class UserAdmin(DjangoUserAdmin, admin.ModelAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'password1', 'password2', 'phone', 'first_name', 'last_name', ),
+            'fields': ('email', 'password1', 'password2', 'username', 'first_name', 'last_name', ),
         }),
     )
     list_display = ('get_username', 'get_fullname', 'is_staff', )
-    search_fields = ('email', 'first_name', 'last_name', 'phone',)
+    search_fields = ('email', 'first_name', 'last_name', 'username',)
     ordering = ('email',)
 
     def get_username(self, obj):
-        return obj.phone
+        return obj.username
 
     def get_fullname(self, obj):
         return "{} {}".format(obj.first_name, obj.last_name)

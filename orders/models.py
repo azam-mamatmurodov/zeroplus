@@ -49,7 +49,7 @@ class Order(models.Model):
 
 
 class Cart(models.Model):
-    session_key = models.CharField(max_length=255)
+    session_key = models.CharField(max_length=255, null=True)
     product = models.ForeignKey(to=Product, )
     count = models.IntegerField()
     status = models.BooleanField(default=True)
@@ -64,4 +64,4 @@ class Cart(models.Model):
         return "{}".format(self.session_key)
 
     def set_total_price(self, count):
-        self.total_price = Decimal(count) * self.price
+        self.total_price = Decimal(count) * self.product.price

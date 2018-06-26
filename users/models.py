@@ -49,7 +49,7 @@ class User(AbstractUser):
         help_text=_('Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'),
         validators=[AbstractUser.username_validator],
         error_messages={
-            'unique': _("A user with that username already exists."),
+            'unique': _("User with that username already exists."),
         },
     )
     phone = models.CharField(max_length=12, unique=True, verbose_name=_('Phone number or Username'))

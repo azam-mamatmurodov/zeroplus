@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import get_object_or_404
 from django.http.response import JsonResponse
 from django.db.models.query import Q
-from rest_framework import views, generics, renderers, response, permissions
+from rest_framework import views, generics, renderers, response, permissions, status
 
 from rest_app.serializers import CartSerializer, ProductSerializer, FavoriteProductSerializer
 from products.models import Product, FavoriteProduct
@@ -27,7 +27,7 @@ class CartViews(generics.ListAPIView):
                 'product': cart_instance.product,
                 'image': cart_instance.product.get_default_image().file.url,
                 'count': cart_instance.count,
-                'price': cart_instance.product.min_price,
+                'price': cart_instance.product.price,
                 'total_price': cart_instance.total_price,
             })
             total_price += Decimal(cart_instance.total_price)
@@ -55,7 +55,7 @@ class CartAddViews(generics.CreateAPIView):
         quantity = 1
         product = Product.objects.get(id=product_id)
 
-        total_price = Decimal(product.min_price) * Decimal(quantity)
+        total_price = Decimal(product.price) * Decimal(quantity)
 
         new_cart_item, created = Cart.objects.get_or_create(session_key=self.session_key, product=product,
                                                             order=None,
@@ -65,7 +65,7 @@ class CartAddViews(generics.CreateAPIView):
                                                             })
         if not created:
             new_cart_item.count += quantity
-            new_cart_item.total_price = new_cart_item.count * new_cart_item.product.min_price
+            new_cart_item.total_price = new_cart_item.count * new_cart_item.product.price
             new_cart_item.save()
             msg = _('Cart successfully updated')
         else:
@@ -87,6 +87,54 @@ class CartDetailViews(generics.UpdateAPIView, generics.DestroyAPIView, generics.
 
     def retrieve(self, request, *args, **kwargs):
         return views.Response(data=self.get_queryset()[0], content_type='application/json')
+
+
+class CartDeleteViews(generics.DestroyAPIView):
+    serializer_class = CartSerializer
+    queryset = None
+    model = Cart
+    lookup_field = "cart_item_id"
+
+    def get_object(self):
+        session_key = self.request.COOKIES.get('client_id')
+        cart_item_id = self.kwargs.get('cart_item_id')
+        cart_item = Cart.objects.get(id=cart_item_id)
+        return cart_item
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        msg = {
+            'message': _('Successful removed'),
+            'status': 'success'
+        }
+        return views.Response(data=msg, status=status.HTTP_204_NO_CONTENT)
+
+
+class CartUpdateViews(generics.UpdateAPIView):
+    serializer_class = CartSerializer
+    queryset = None
+    model = Cart
+    lookup_field = "cart_item_id"
+
+    def get_object(self):
+        session_key = self.request.COOKIES.get('client_id')
+        cart_item = Cart.objects.get(session_key=session_key, id=self.kwargs.get('cart_item_id'))
+        return cart_item
+
+    def update(self, request, *args, **kwargs):
+        count = request.data.get('count')
+        instance = self.get_object()
+        instance.count = count
+        instance.set_total_price(count)
+
+        self.perform_update(instance)
+        msg = {
+            'message': _('Successful saved'),
+            'status': 'success',
+            'data': CartSerializer(instance=instance).data
+        }
+        return views.Response(data=msg, status=status.HTTP_202_ACCEPTED)
 
 
 class ProductPreviewViews(generics.RetrieveAPIView):

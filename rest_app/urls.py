@@ -17,9 +17,9 @@ urlpatterns = [
     url(r'^cart/add/$',
         views.CartAddViews.as_view(),
         name='cart_add'),
-    url(r'^cart/(?P<client_id>[\d]+)/(?P<variation_id>[\d]+)/$',
-        views.CartDetailViews.as_view(),
-        name='cart_detail'),
+    url(r'^cart/(?P<cart_item_id>[\d]+)/update/$', views.CartUpdateViews.as_view(), name='cart_update'),
+    url(r'^cart/(?P<cart_item_id>[\d]+)/delete/$', views.CartDeleteViews.as_view(), name='cart_delete'),
+
     url(r'^search/$',
         views.SearchResultViews.as_view(),
         name='search_results'),

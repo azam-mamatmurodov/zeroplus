@@ -4,7 +4,7 @@ from orders.models import Order, Cart
 
 
 class CartAdmin(admin.ModelAdmin):
-    list_display = ['session_key', 'get_product', 'per_item_price', 'count', 'total_price', 'status', 'get_order', ]
+    list_display = ['get_product', 'per_item_price', 'count', 'total_price', 'status', 'get_order', ]
 
     def per_item_price(self, obj):
         return "{}".format(obj.product.min_price)

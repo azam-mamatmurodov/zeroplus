@@ -6,19 +6,35 @@ from parler.models import TranslatableModel, TranslatedFields
 from parler.managers import TranslationManager
 from ckeditor_uploader.fields import RichTextUploadingField
 from filer.fields.image import FilerImageField
+from mptt.models import MPTTModel, TreeForeignKey
 
 
-class Menu(TranslatableModel):
+class Menu(MPTTModel, TranslatableModel):
+    parent = TreeForeignKey('self', null=True, blank=True,)
     translations = TranslatedFields(
         name=models.CharField(max_length=60, verbose_name=_('Name')),
         slug=models.SlugField(max_length=60, verbose_name=_('Slug')),
     )
-
     order = models.IntegerField(default=0, verbose_name=_('Order'))
     objects = TranslationManager()
 
+    class MPTTMeta:
+        level_attr = 'mptt_level'
+
+    def get_slug_list(self):
+        try:
+            ancestors = self.get_ancestors(include_self=self)
+        except:
+            ancestors = []
+        else:
+            ancestors = [i.slug for i in ancestors]
+        slugs = []
+        for i in range(len(ancestors)):
+            slugs.append('/'.join(ancestors[i + 1]))
+        return slugs
+
     def __str__(self):
-        return "{}".format(self.name)
+        return "{}".format(self.safe_translation_getter('name'))
 
 
 class Banner(TranslatableModel):
@@ -31,7 +47,7 @@ class Banner(TranslatableModel):
     objects = TranslationManager()
 
     def __str__(self):
-        return "{}".format(self.name)
+        return "{}".format(self.safe_translation_getter('name'))
 
 
 class Static(TranslatableModel):
@@ -40,12 +56,11 @@ class Static(TranslatableModel):
         slug=models.SlugField(max_length=60, verbose_name=_('Slug'), unique=True),
         body=RichTextUploadingField()
     )
-    image = FilerImageField(null=True)
-    created_at = models.DateTimeField()
+    image = FilerImageField(null=True, blank=True)
     objects = TranslationManager()
 
     def __str__(self):
-        return "{}".format(self.name)
+        return "{}".format(self.safe_translation_getter('name'))
 
 
 class News(TranslatableModel):
@@ -63,4 +78,13 @@ class News(TranslatableModel):
         verbose_name_plural = _('News')
 
     def get_absolute_url(self):
-        return reverse_lazy('main:news_detail', args=[self.slug])
+        return reverse_lazy('main:news_detail', args=[self.safe_translation_getter('slug')])
+
+
+class Contact(models.Model):
+    first_name = models.CharField(max_length=60)
+    last_name = models.CharField(max_length=60, null=True, blank=True)
+    email = models.EmailField()
+    subject = models.CharField(max_length=120)
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)

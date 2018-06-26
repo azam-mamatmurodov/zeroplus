@@ -6,20 +6,134 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}" type="text/css" >
     <link rel="stylesheet" href="{% static 'css/owl.theme.default.css' %}" type="text/css" >
     <link  href="{% static 'fonts/roboto/Roboto-Light.ttf' %}">
     <link rel="stylesheet" href="{% static 'css/xzoom.css' %}">
-    <link rel="stylesheet" href="{% static 'css/main.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.min.css' %}?v=2">
+    {% block css %}{% endblock %}
 </head>
 <body>
 
 {% block content %}{% endblock %}
 
 <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/js.cookie.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/notify.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/owl.carousel.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/xzoom.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+
+<script>
+    $(document).ready(function () {
+
+
+        $.notify.defaults({
+            className: 'success',
+            elementPosition: 'bottom right'
+        });
+        var csrftoken = Cookies.get('csrftoken')
+        function csrfSafeMethod(method)
+        {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+        var cart_url = "/api/v1/cart/";
+
+        function get_cart_and_set()
+        {
+            $.get(cart_url, function (response, status) {
+                if(status === 'success')
+                {
+                    var cartview = $('#cart-block');
+                    cartview.html(response);
+                }
+            });
+        }
+        window.onload = function (ev) {
+            get_cart_and_set();
+        }
+
+        $(document).on('click', '.cart_add', function (e) {
+            var this_target = $(this);
+            e.preventDefault();
+            var product_id = $(this).data('product');
+            $.post("{% url 'api:cart_add' %}", {'product_id': product_id }, function (response, status) {
+                if(status === 'success')
+                {
+                    var cart = $('#cart');
+                    var cart_icon = $('#cart_icon');
+
+                        cart_icon.removeClass('rotated');
+
+                    var image_src = this_target.data("image");
+                    var new_imgtodrag = document.createElement('img');
+                        new_imgtodrag.src = image_src;
+                    var imgtodrag =  $(new_imgtodrag);
+                    if (imgtodrag) {
+                        var imgclone = imgtodrag.clone()
+                            .offset({
+                                top: this_target.offset().top,
+                                left: this_target.offset().left
+                            })
+                            .css({
+                                'opacity': '0.5',
+                                'position': 'absolute',
+                                'height': '150px',
+                                'width': '150px',
+                                'z-index': '100'
+                            })
+                            .appendTo($('body'))
+                            .animate({
+                                'top': cart.offset().top + 10,
+                                'left': cart.offset().left + 10,
+                                'width': 75,
+                                'height': 75
+                            }, 1000);
+
+                        imgclone.animate({
+                            'width': 0,
+                            'height': 0
+                        }, function () {
+                            $(this).detach()
+                        });
+
+                        setTimeout(function (e) {
+                            cart_icon.addClass('rotated');
+                        }, 1000);
+                    }
+                    $.notify(response.message, {position: 'bottom right', className: 'success'});
+                    get_cart_and_set();
+                }
+            });
+
+
+        });
+
+
+
+    })
+</script>
+{% block js %}{% endblock %}
+<style>
+    #cart_icon.rotated{
+        transition: .3s all;
+        -webkit-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+</style>
+
 </body>
 </html>

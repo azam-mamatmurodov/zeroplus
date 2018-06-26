@@ -252,3 +252,9 @@ REST_FRAMEWORK = {
 }
 
 SOLID_I18N_HANDLE_DEFAULT_PREFIX = True
+
+THUMBNAIL_ALIASES = {
+    '': {
+        'avatar': {'size': (50, 50), 'crop': True},
+    },
+}

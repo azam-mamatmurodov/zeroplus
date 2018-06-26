@@ -6,8 +6,6 @@ from django.core.urlresolvers import reverse_lazy
 
 from orders.models import Cart, Order
 from orders.forms import OrderForm
-from users.forms import LoginForm, DeliveryAddressForm
-from users.models import DeliveryAddress
 
 
 def address_parser(client_address_cookie):
@@ -47,41 +45,6 @@ class CartView(ListView):
         return context
 
 
-class OrderAddressView(FormView):
-    template_name = 'pages/orders/address.html'
-    form_class = DeliveryAddressForm
-    success_url = reverse_lazy('orders:address')
-
-    def get_cart_items(self, request):
-        current_user_session_key = request.COOKIES.get('client_id')
-        cart_items = Cart.objects.filter(session_key=current_user_session_key, status=True, order__isnull=True)
-        return cart_items
-
-    def dispatch(self, request, *args, **kwargs):
-        if self.get_cart_items(request=request).count() == 0:
-            return redirect(reverse('main:home'))
-        return super().dispatch(request=request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if self.request.user.is_authenticated:
-            context['delivery_addresses'] = DeliveryAddress.objects.filter(user=self.request.user)
-        context['form_address'] = DeliveryAddressForm(self.request.POST or None)
-        client_address = self.request.COOKIES.get('client_address')
-        if client_address:
-            address = address_parser(client_address)
-        else:
-            address = None
-        context['address'] = address
-        return context
-
-    def form_valid(self, form):
-        form_instance = form.save(commit=False)
-        form_instance.user = self.request.user
-        form_instance.save()
-        return redirect(to=self.success_url)
-
-
 class CheckoutView(TemplateView):
     template_name = 'pages/orders/checkout.html'
 
@@ -113,7 +76,6 @@ class CheckoutView(TemplateView):
             total_quantity += cart_item.count
         context['total_amount'] = total_amount
         context['total_quantity'] = total_quantity
-        context['form'] = DeliveryAddressForm(self.request.POST or None)
         context['cart_items'] = cart_items
         context['client_address'] = address_parser(address)
         return context

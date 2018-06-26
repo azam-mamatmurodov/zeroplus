@@ -1,0 +1,30 @@
+{% load static i18n humanize %}
+
+<div class="items">
+    {% for cart_item in cart.items %}
+        <div class="item">
+            <img style="width: 140px; height: 140px;" src="{{ cart_item.image }}">
+            <div class="description">
+                <h2>
+                    <a href="{{ cart_item.product.get_absolute_url }}">
+                       <span class="title"> {{ cart_item.product.name }}</span>
+                    </a>
+                </h2>
+                <span class="price">{{ cart_item.product.get_price }} x {{ cart_item.count }} = {{ cart_item.total_price|floatformat|intcomma }}</span>
+            </div>
+            <a href="" id="delete">X</a>
+        </div>
+    {% endfor %}
+</div>
+<div class="order-total">
+    <span class="order-total-name">{% trans 'Order total' %}</span>
+    <span class="order-total-sum">{{ cart.total_price }}</span>
+</div>
+<div class="buttons">
+    <a href="{% url 'orders:cart' %}" class="view-cart">
+        {% trans 'See cart' %}
+    </a>
+    <a href="{% url 'orders:checkout' %}" class="checkout">
+        {% trans 'See checkout' %}
+    </a>
+</div>
