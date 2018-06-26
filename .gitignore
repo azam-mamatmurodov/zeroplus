@@ -5,7 +5,6 @@ __pycache__/
 *.py[cod]
 *$py.class
 templates/new/*
-media/*
 # C extensions
 *.so
 
@@ -55,7 +54,6 @@ coverage.xml
 # Django stuff:
 *.log
 .static_storage/
-.media/
 local_settings.py
 
 # Flask stuff:
