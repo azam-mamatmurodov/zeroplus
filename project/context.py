@@ -67,6 +67,17 @@ def get_breadcrumbs(request, *args, **kwargs):
             'title': page_title,
             'path': reverse(view_name),
         })
+    elif view_name == 'orders:checkout':
+        cart_title = _('Cart')
+        paths.append({
+            'title': cart_title,
+            'path': reverse('orders:cart'),
+        })
+        page_title = _('Checkout')
+        paths.append({
+            'title': page_title,
+            'path': reverse(view_name),
+        })
     elif view_name == 'orders:order_detail':
         paths.append({
             'title': _('Cart'),
@@ -75,7 +86,7 @@ def get_breadcrumbs(request, *args, **kwargs):
         page_title = _('Order info')
         paths.append({
             'title': page_title,
-            'path': reverse(view_name, args=[kwargs.get('phone'), kwargs.get('order_unique_id')]),
+            'path': reverse(view_name, args=[kwargs.get('order_unique_id')]),
         })
     elif view_name == 'products:product_detail':
         slug = kwargs.get('slug')

@@ -1,11 +1,13 @@
 from decimal import Decimal
 from unidecode import unidecode
+
 from django.template import defaultfilters
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from django.shortcuts import reverse
 from django.core.urlresolvers import reverse_lazy
+from django.contrib.humanize.templatetags.humanize import intcomma
 
 from mptt.models import MPTTModel, TreeForeignKey
 from parler.models import TranslatableModel, TranslatedFields
@@ -134,8 +136,7 @@ class Product(models.Model):
 
     def get_price(self):
         currency = _('soum')
-        from django.contrib.humanize.templatetags.humanize import intcomma
-        return "{} {}".format(intcomma(self.price), currency)
+        return "{} {}".format(intcomma(int(self.price)), currency)
 
     def get_reviews(self):
         return self.product_reviews.filter(is_approved=True)

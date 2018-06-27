@@ -1,5 +1,6 @@
 from decimal import Decimal
 import uuid
+from uuid import UUID
 from django.views.generic import ListView, CreateView, DetailView, FormView, TemplateView
 from django.shortcuts import reverse, redirect
 from django.core.urlresolvers import reverse_lazy
@@ -45,8 +46,10 @@ class CartView(ListView):
         return context
 
 
-class CheckoutView(TemplateView):
+class CheckoutView(CreateView):
     template_name = 'pages/orders/checkout.html'
+    model = Order
+    fields = ['client_name', 'phone', 'shipping_address']
 
     def get_cart_items(self, request):
         current_user_session_key = request.COOKIES.get('client_id')
@@ -56,17 +59,9 @@ class CheckoutView(TemplateView):
     def dispatch(self, request, *args, **kwargs):
         if self.get_cart_items(request=request).count() == 0:
             return redirect(reverse('main:home'))
-        if not request.COOKIES.get('client_address'):
-            return redirect(reverse('orders:address'))
-        client_address = address_parser(request.COOKIES.get('client_address'))
-        if not client_address.get('client_name') or not client_address.get('phone') or not client_address.get('shipping_address'):
-            return redirect(reverse('orders:address'))
         return super().dispatch(request=request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-
-        address = self.request.COOKIES.get('client_address')
-
         context = super().get_context_data(**kwargs)
         cart_items = self.get_cart_items(self.request)
         total_amount = 0
@@ -76,30 +71,28 @@ class CheckoutView(TemplateView):
             total_quantity += cart_item.count
         context['total_amount'] = total_amount
         context['total_quantity'] = total_quantity
-        context['cart_items'] = cart_items
-        context['client_address'] = address_parser(address)
+        context['cart_items'] = self.get_cart_items(request=self.request)
         return context
 
-    def post(self, request, *args, **kwargs):
-        return self.render_to_response(context=self.get_context_data(**kwargs))
+    def form_valid(self, form):
+        context = self.get_context_data()
+        order = form.save(commit=False)
+        order.total_price = context['total_amount']
+        order.order_unique_id = uuid.uuid4()
+        order.save()
+
+        cart_items = self.get_cart_items(request=self.request)
+        for cart_item in cart_items:
+            cart_item.order = order
+            cart_item.save()
+        return redirect(reverse('orders:order_detail', args=[order.order_unique_id]))
 
 
 class OrderDetail(DetailView):
-    template_name = 'pages/order_detail.html'
+    template_name = 'pages/orders/order_detail.html'
     model = Order
 
     def get_object(self, queryset=None):
-        phone = self.kwargs.get('phone')
         order_unique_id = self.kwargs.get('order_unique_id')
-        return self.model.objects.get(order_unique_id=order_unique_id, phone=phone)
-
-
-class OrderInvoiceDetail(DetailView):
-    template_name = 'pages/invoice.html'
-    model = Order
-
-    def get_object(self, queryset=None):
-        phone = self.kwargs.get('phone')
-        order_unique_id = self.kwargs.get('order_unique_id')
-        return self.model.objects.get(order_unique_id=order_unique_id, phone=phone)
+        return self.model.objects.get(order_unique_id=order_unique_id, )
 

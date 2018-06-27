@@ -1,8 +1,11 @@
 from decimal import Decimal
+
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.humanize.templatetags.humanize import intcomma
 from django.shortcuts import get_object_or_404
 from django.http.response import JsonResponse
 from django.db.models.query import Q
+from django.db.models import Sum, FloatField
 from rest_framework import views, generics, renderers, response, permissions, status
 
 from rest_app.serializers import CartSerializer, ProductSerializer, FavoriteProductSerializer
@@ -70,7 +73,7 @@ class CartAddViews(generics.CreateAPIView):
                                                             })
         if not created:
             new_cart_item.count += quantity
-            new_cart_item.total_price = new_cart_item.count * new_cart_item.product.price
+            new_cart_item.total_price = new_cart_item.count * price
             new_cart_item.save()
             msg = _('Cart successfully updated')
         else:
@@ -199,3 +202,15 @@ class SearchResultViews(generics.ListAPIView):
             data={'object_list': self.get_queryset()}
         )
 
+
+class CartInfoViews(views.View):
+
+    def get(self, request, *args, **kwargs):
+        session_key = request.COOKIES.get('client_id')
+        total_price = Cart.objects.filter(session_key=session_key, order__isnull=True).aggregate(total=Sum('total_price'))
+        msg = _('soum')
+        price = intcomma(int(total_price.get('total')))
+        data = {
+            'total': "{} {}".format(price, msg)
+        }
+        return JsonResponse(data, safe=False)

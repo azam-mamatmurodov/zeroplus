@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from products.models import Product
 from orders.models import Order, Cart
 
 
@@ -26,7 +27,13 @@ class CartAdmin(admin.ModelAdmin):
     list_display_links = ['get_product', 'get_order', ]
 
 
+class OrderedProducts(admin.TabularInline):
+    model = Cart
+    fields = ['product', 'count', 'total_price', ]
+
+
 class OrderAdmin(admin.ModelAdmin):
+    inlines = [OrderedProducts, ]
     list_display = ['id', 'order_unique_id', 'client_name', 'phone', 'total_price', 'created', 'state', ]
     search_fields = ['client_name', 'phone', 'shipping_address', ]
     list_filter = ['state', ]

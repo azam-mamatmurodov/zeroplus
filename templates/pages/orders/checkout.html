@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load i18n humanize widget_tweaks %}
+{% block title %}{{ site_name }} | {% trans 'Checkout' %}{% endblock %}
+
+{% block content %}
+    {{ header }}
+    {{ breadcrumbs }}
+    <div id="checkout_page" class="container">
+        <div class="row">
+            <section id="checkout-content">
+                <div class="col-md-6">
+                    <h4 class="products-title text-center">
+                        {% trans 'Product list' %}
+                    </h4>
+                    <div class="list-group">
+                        {% for cart_item in cart_items %}
+                            <div class="list-group-item">
+                                {{ cart_item.product }} x {{ cart_item.count }} = {{ cart_item.total_price|floatformat|intcomma }} {% trans 'soum' %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="total_price">
+                        <b>{% trans 'Total soum' %}</b>: {{ total_amount|floatformat|intcomma }} {% trans 'soum' %}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <form action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        {% for hidden_field in form.hidden_fields %}
+                            {{ hidden_field }}
+                        {% endfor %}
+
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {% for error in form.non_field_errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        {% for field in form.visible_fields %}
+                            <div class="form-group">
+                                {{ field.label_tag }}
+                                {% if form.is_bound %}
+                                    {% if field.errors %}
+                                        {% render_field field class="form-control is-invalid" %}
+                                        {% for error in field.errors %}
+                                            <div class="invalid-feedback">
+                                                {{ error }}
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% render_field field class="form-control is-valid" %}
+                                    {% endif %}
+                                {% else %}
+                                    {% render_field field class="form-control" %}
+                                {% endif %}
+                                {% if field.help_text %}
+                                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        <div class="form-group text-right">
+                            <input type="submit" class="btn btn-primary">
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+
+
+    </div>
+    {{ footer }}
+
+{% endblock %}

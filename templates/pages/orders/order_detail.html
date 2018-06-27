@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load i18n humanize widget_tweaks %}
+{% block title %}{{ site_name }} | {% trans 'Checkout' %}{% endblock %}
+
+{% block content %}
+    {{ header }}
+    {{ breadcrumbs }}
+    <div id="checkout_page" class="container">
+        <div class="row">
+            <section id="checkout-content">
+                Thanks, your order was received.
+                Order id: {{ object.order_unique_id }}
+            </section>
+        </div>
+    </div>
+    {{ footer }}
+
+{% endblock %}

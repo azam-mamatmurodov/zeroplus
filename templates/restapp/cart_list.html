@@ -10,15 +10,27 @@
                        <span class="title"> {{ cart_item.product.name }}</span>
                     </a>
                 </h2>
-                <span class="price">{{ cart_item.product.get_price }} x {{ cart_item.count }} = {{ cart_item.total_price|floatformat|intcomma }}</span>
+                <span class="price">
+                    {% if cart_item.product.is_sale %}
+                        {{ cart_item.product.get_sale_price|floatformat|intcomma }}
+                    {% else %}
+                        {{ cart_item.product.price|floatformat|intcomma }}
+                    {% endif %}
+                    x {{ cart_item.count }} =
+                    {{ cart_item.total_price|floatformat|intcomma }} {% trans 'soum' %}
+                </span>
             </div>
-            <a data-cart_item_id="{{ cart_item.id }}" class="delete_item delete" style="width: 10px; height: 10px; color: #000;">X</a>
+            <a
+                    data-cart_item_id="{{ cart_item.id }}"
+                    class="delete_item delete"
+                    style="width: 10px; height: 10px; color: #000;"
+            >X</a>
         </div>
     {% endfor %}
 </div>
 <div class="order-total">
-    <span class="order-total-name">{% trans 'Order total' %}</span>
-    <span class="order-total-sum">{{ cart.total_price }}</span>
+    <span class="order-total-name">{% trans 'Total soum' %}:</span>
+    <span class="order-total-sum">{{ cart.total_price }} {% trans 'soum' %}</span>
 </div>
 <div class="buttons">
     <a href="{% url 'orders:cart' %}" class="view-cart">

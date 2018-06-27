@@ -70,13 +70,14 @@
                                         <span class="price_total">
                                             {{ cart_item.product.price|floatformat|intcomma }}
                                         </span>
-                                        {% trans 'sum' %}
+                                        {% trans 'soum' %}
                                     </strong>
                                 </div>
                                 <div class="cart-product-subtotal end">
                                     <strong>
                                         <span class="productPrice">{{ cart_item.total_price|floatformat|intcomma }}</span>
-                                        {% trans 'sum' %}</strong>
+                                        {% trans 'soum' %}
+                                    </strong>
                                 </div>
                             </div>
                         {% endfor %}
@@ -88,7 +89,7 @@
                             <div class="itog">
                                 <h5>{% trans 'Total price' %}</h5>
                                 <h2>
-                                    <div id="total_price">{{ total_amount|floatformat|intcomma }} {% trans 'sum' %}</div>
+                                    <div id="total_price">{{ total_amount|floatformat|intcomma }} {% trans 'soum' %}</div>
                                 </h2>
                                 <a id="order_button" href="{% url 'orders:checkout' %}">{% trans 'Checkout' %}</a>
                             </div>
@@ -129,8 +130,8 @@
                     }
                 });
                 setTimeout(function () {
-                    $.getJSON('/api/v1/cart/', function (resp) {
-                        var total_price = resp.total_price;
+                    $.getJSON('/api/v1/cart/info/', function (resp) {
+                        var total_price = resp.total;
                         $('#total_price').text(total_price);
                     })
                 }, 300);

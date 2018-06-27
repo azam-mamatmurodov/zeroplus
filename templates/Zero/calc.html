@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<script
+  src="https://code.jquery.com/jquery-1.12.4.min.js"
+  integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+  crossorigin="anonymous"></script></head>
+<body>
+<div class="block" id="calculator_content">
+    <div style="width:200px;">
+        <iframe style="width:200px;" src="http://cbu.uz/ru/section/iframe/usd/eur/rub/007f96/ffffff" width="210"
+                height="100" frameborder="0" scrolling="no"></iframe>
+    </div>
+    <form id="theform" method="get" action="">
+        <noscript>Пожалуйста, включите JavaScript!</noscript>
+        <table class="table table-bordered" style="width: 50%; text-align: center;">
+            <tbody>
+            <tr>
+                <td colspan=" 3">
+
+            <tbody>
+            <tr>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <th>Статус страхователя:</th>
+                <th colspan="2">Курс $ США</th>
+            </tr>
+            <tr>
+                <td>
+                    <label><input onchange="form_updated(this);" type="radio" class="radio" name="status_strax"
+                                  value="y"> Юридическое лицо</label><br>
+                    <label style="margin: 0 20px 0 20px;"><input onchange="form_updated(this);" type="radio"
+                                                                 class="radio" name="status_strax" value="p"
+                                                                 checked="checked"> Физическое лицо</label>
+                </td>
+                <td colspan="2"><input id="kurs_val" onkeyup="form_updated(this);" type="text" value="1830.88"
+                                       style="width: 100px; text-align: right;"></td>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <th>На какой срок заключается договор:</th>
+                <th colspan="2">Страховая сумма:</th>
+            </tr>
+            <tr>
+                <td>
+                    <select name="srok_dogovor" id="srok_dogovor" onchange="form_updated(this);">
+                        <option value="">На 1 год</option>
+                        <option value="">С учетом сезонного использования</option>
+                        <option value="">На срок временного использования ТС в Узбекистане</option>
+                        <option value="">На срок следования к месту регистрации</option>
+                    </select>
+                </td>
+                <th id="strax_summa_val" colspan="2" class="midcol" style="color: red;">5,492,640</th>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <th>Вид транспортного средства:</th>
+                <th colspan="2">Коеффициенты:</th>
+            </tr>
+            <tr>
+                <td>
+                    <select name="vid_transport" id="vid_transport" onchange="form_updated(this);">
+                        <option value="0.5" rel="0.4">Легковые авто с двигателем до 1200 куб.см включительно</option>
+                        <option value="0.55" rel="0.45">Легковые автомобили с двигателем свыше 1200 до 2200 куб.см
+                            включительно
+                        </option>
+                        <option value="0.6" rel="0.5">Легковые автомобили с двигателем свыше 2200 до 3200 куб.см
+                            включительно
+                        </option>
+                        <option value="0.65" rel="0.55">Легковые автомобили с двигателем свыше 3200 куб.см</option>
+                        <option value="0.7" rel="0.6">Легковые автомобили и микроавтобусы, используемуе в качестве
+                            такси
+                        </option>
+                        <option value="0.5" rel="0.4">Грузовые автомобили с грузоподьемностю до 10тонн</option>
+                        <option value="0.8" rel="0.8">Грузовые автомобили с грузоподьемностю свыше 10тонн</option>
+                        <option value="0.4" rel="0.35">Автобусы и микроавтобусы (за исключением микроавтобусов, …)
+                        </option>
+                        <option value="0.5" rel="0.45">Автобусы и микроавтобусы (за исключением микроавтобусов, …)
+                        </option>
+                        <option value="0.35" rel="0.35">Тролейбусы</option>
+                        <option value="0.2" rel="0.2">Трамваи</option>
+                        <option value="0.3" rel="0.25">Тракторы, самоходные дорожно-строительные машины</option>
+                        <option value="0.3" rel="0.25">Мотоциклы и мотороллеры</option>
+                    </select>
+                </td>
+                <th class="midcol">Тб</th>
+                <th class="lastcol" id="vid_transport_val">0.4</th>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <th colspan="3">Период использования транспортного средства:</th>
+            </tr>
+            <tr>
+                <td>
+                    <select name="period_ispolzovanie" id="period_ispolzovanie" onchange="form_updated(this);"
+                            disabled="disabled">
+                        <option value="0.6">6 месяцев</option>
+                        <option value="0.65">7 месяцев</option>
+                        <option value="0.7">8 месяцев</option>
+                        <option value="0.75">9 месяцев</option>
+                        <option value="0.8">10 месяцев</option>
+                        <option value="0.9">11 месяцев</option>
+                    </select>
+                </td>
+                <th class="midcol">Кс</th>
+                <th class="lastcol" id="period_ispolzovanie_val">1</th>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <th colspan="3">Срок страхования:</th>
+            </tr>
+            <tr>
+                <td>
+                    <select name="srok_strax" id="srok_strax" onchange="form_updated(this);" disabled="disabled">
+                        <option value="0.2">до 15 дней</option>
+                        <option value="0.3">от 16 дней до 2 месяцев</option>
+                        <option value="0.4">2 месяцев</option>
+                        <option value="0.45">3 месяцев</option>
+                        <option value="0.5">4 месяца</option>
+                        <option value="0.55">5 месяцев</option>
+                        <option value="0.6">6 месяцев</option>
+                        <option value="0.65">7 месяцев</option>
+                        <option value="0.7">8 месяцев</option>
+                        <option value="0.75">9 месяцев</option>
+                        <option value="0.8">10 месяцев</option>
+                        <option value="0.9">11 месяцев</option>
+                    </select>
+                </td>
+                <th class="midcol">Кп</th>
+                <th class="lastcol" id="srok_strax_val">1</th>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <th colspan="3">Территория преимущественного использования ТС:</th>
+            </tr>
+            <tr>
+                <td>
+                    <select name="territoriya_ispolzovaniya" id="territoriya_ispolzovaniya"
+                            onchange="form_updated(this);">
+                        <option value="1.4">г. Ташкент</option>
+                        <option value="1.2">Кибрайский р-н Ташкентской области</option>
+                        <option value="1.2">Зангиатинский р-н Ташкентской области</option>
+                        <option value="1.2">Ташкентский р-н Ташкентской области</option>
+                        <option value="1.2">Юкоричирчикский р-н Ташкентской области</option>
+                        <option value="1.2">Уртачирчиксий р-н Ташкентской области</option>
+                        <option value="1">Другие районы Ташкентской области</option>
+                        <option value="1.2">Ферганская область</option>
+                        <option value="1.2">Наманганская область</option>
+                        <option value="1.2">Андижанская область</option>
+                        <option value="1.2">Самаркандская область</option>
+                        <option value="1">Бухарская область</option>
+                        <option value="1">Навоийская область</option>
+                        <option value="1">Кашкадарьинская область</option>
+                        <option value="1">Сурхандарьинская область</option>
+                        <option value="0.8">Хорезмская область</option>
+                        <option value="0.8">Джизакская область</option>
+                        <option value="0.8">Сырдарьинская область</option>
+                        <option value="0.8">Республика Каракалпакстан</option>
+                    </select>
+                </td>
+                <th class="midcol">Кт</th>
+                <th class="lastcol" id="territoriya_ispolzovaniya_val">1.4</th>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <th colspan="3">Кол-во лиц допущенных к управлению ТС ограничевается:</th>
+            </tr>
+            <tr>
+                <td>
+                    <label><input onchange="form_updated(this);" type="radio" class="radio" name="kol_lic_ogran"
+                                  value="1" checked="checked"> Да</label><br>
+                    <label style="margin: 0 20px 0 20px;"><input onchange="form_updated(this);" type="radio"
+                                                                 class="radio" name="kol_lic_ogran" value="4.2">
+                        Нет</label>
+                </td>
+                <th class="midcol">Кбо</th>
+                <th class="lastcol" id="kol_lic_ogran_val">1</th>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <th colspan="3">Наличие или отсутствие страховых случаев<br>в предшествующие периоды:</th>
+            </tr>
+            <tr>
+                <td>
+                    <select name="nalichiy_strax_sluch" id="nalichiy_strax_sluch" onchange="form_updated(this);">
+                        <option value="0.9">Отсутствие страховых случаев в течении предыдущего страхового …</option>
+                        <option value="0.8">Отсутствие страховых случаев в течении 2 предыдущих лет</option>
+                        <option value="0.7">Отсутствие страховых случаев в течении 3 предыдущих лет</option>
+                        <option value="0.6">Отсутствие страховых случаев в течении 4 предыдущих лет</option>
+                        <option value="0.5">Отсутствие страховых случаев в течении 5 предыдущих лет</option>
+                        <option value="1.2">Один страховой случай, произошедший в период действие …</option>
+                        <option value="1.3">Два страховых случаев, произошедших в период действие …</option>
+                        <option value="1.55">Три и более страховых случаев, произошедших в период действие …</option>
+                        <option value="1" selected="selected">Договор обязельного страхования заключается впервые
+                        </option>
+                    </select>
+                </td>
+                <th class="midcol">Кбм</th>
+                <th class="lastcol" id="nalichiy_strax_sluch_val">1</th>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <th colspan="3">Наименьший водительский стаж среди допущенных<br>к вождению лиц:</th>
+            </tr>
+            <tr>
+                <td>
+                    <select name="naimenshiy_staj" id="naimenshiy_staj" onchange="form_updated(this);">
+                        <option value="1.4">до 2 лет включительно</option>
+                        <option value="1.1">до 2 до 5 лет включительно</option>
+                        <option value="1">свыше 5 лет</option>
+                    </select>
+                </td>
+                <th class="midcol">Кв</th>
+                <th class="lastcol" id="naimenshiy_staj_val">1.4</th>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <th colspan="3">Наименьший возраст среди допущенных к вождению лиц:</th>
+            </tr>
+            <tr>
+                <td>
+                    <select name="naimenshiy_vozrast" id="naimenshiy_vozrast" onchange="form_updated(this);">
+                        <option value="1.25">до 22 включительно</option>
+                        <option value="1">старше 22 лет</option>
+                    </select>
+                </td>
+                <th class="midcol">Квз</th>
+                <th class="lastcol" id="naimenshiy_vozrast_val">1.25</th>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <th colspan="3">Наличие за последние 5 лет у страхователя или<br>допущенных к вождению лиц нарушений
+                    приведенных<br>в п.8 прил. 5 ПКМ N141 от 24.06.08 г.:
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    <label><input onchange="form_updated(this);" type="radio" class="radio" name="nalichie_narushenie"
+                                  value="1.5"> Да</label><br>
+                    <label style="margin: 0 20px 0 20px;"><input onchange="form_updated(this);" type="radio"
+                                                                 class="radio" name="nalichie_narushenie" value="1"
+                                                                 checked="checked"> Нет</label>
+                </td>
+                <th class="midcol">Кн</th>
+                <th class="lastcol" id="nalichie_narushenie_val">1</th>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <fieldset style="border: 1px solid #ccc; padding: 10px;">
+                        <legend>Страховой тариф и премия</legend>
+                        <p><input type="text" readonly="readonly" id="txt1" size="15" style="text-align: right;"><br>
+                            <input type="text" readonly="readonly" id="txt2" size="15"
+                                   style="text-align: right; margin-right: 10px;"><br>
+                            <input type="text" readonly="readonly" id="txt3" size="15"
+                                   style="text-align: right; margin-right: 10px;"><br>
+                        </p></fieldset>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script src=""></script>
+<script type="text/javascript">
+    function $(id) {
+        return document.getElementById(id);
+    }
+
+    var coef = ['vid_transport', 'period_ispolzovanie', 'srok_strax', 'territoriya_ispolzovaniya', 'kol_lic_ogran', 'nalichiy_strax_sluch', 'naimenshiy_staj', 'naimenshiy_vozrast', 'nalichie_narushenie'];
+    var theform = $('theform');
+
+    function form_updated(elem) {
+        var nodename = elem.nodeName.toLowerCase();
+        if (nodename === 'select') {
+            if (elem.id == 'vid_transport' && theform.status_strax[1].checked) {
+                if (theform.status_strax[1].checked) {
+                    update_coef(elem.id + '_val', elem.options[elem.selectedIndex].getAttribute('rel'));
+                } else {
+                    update_coef(elem.id + '_val', elem.options[elem.selectedIndex].value);
+                }
+            } else if (elem.id == 'srok_dogovor') {
+                switch (elem.selectedIndex) {
+                    case 0:
+                        $('period_ispolzovanie').disabled = true;
+                        $('srok_strax').disabled = true;
+                        $('period_ispolzovanie_val').innerHTML = 1;
+                        $('srok_strax_val').innerHTML = 1;
+                        break;
+                    case 1:
+                        $('period_ispolzovanie').disabled = false;
+                        $('srok_strax').disabled = true;
+                        form_updated($('period_ispolzovanie'));
+                        $('srok_strax_val').innerHTML = 1;
+                        break;
+                    case 2:
+                        $('period_ispolzovanie').disabled = true;
+                        $('srok_strax').disabled = false;
+                        $('period_ispolzovanie_val').innerHTML = 1;
+                        form_updated($('srok_strax'));
+                        break;
+                    case 3:
+                        $('period_ispolzovanie').disabled = true;
+                        $('srok_strax').disabled = true;
+                        $('period_ispolzovanie_val').innerHTML = 1;
+                        $('srok_strax_val').innerHTML = 1;
+                        break;
+                }
+            } else {
+                update_coef(elem.id + '_val', elem.options[elem.selectedIndex].value);
+            }
+        } else {
+            if (elem.type == 'radio') {
+                if (elem.name == 'status_strax') {
+                    form_updated($('vid_transport'));
+                } else {
+                    update_coef(elem.name + '_val', elem.value);
+                }
+            } else {
+            }
+        }
+        calculate();
+    }
+
+    function update_coef(id, value, status) {
+        var elem = $(id);
+        elem.innerHTML = value;
+        elem.setAttribute('readonly', !!status);
+    }
+
+    function calculate() {
+        var kurs = ($('kurs_val').value == '' || isNaN($('kurs_val').value)) ? 0 : parseFloat($('kurs_val').value);
+        var txt1 = 1;
+        for (var i = 0; i < coef.length; ++i) txt1 = txt1 * parseFloat($(coef[i] + '_val').innerHTML);
+        var txt2 = txt1 * 30;
+        var txt3 = txt2 * kurs;
+        $('strax_summa_val').innerHTML = addCommas((kurs * 3000).toFixed(0));
+        $('txt1').value = txt1.toFixed(3);
+        $('txt2').value = '$' + txt2.toFixed(0).toString();
+        $('txt3').value = '$' + addCommas(txt3.toFixed(0).toString());
+    }
+
+    function addCommas(sValue) {
+        var sRegExp = new RegExp('(-?[0-9]+)([0-9]{3})');
+        while (sRegExp.test(sValue)) {
+            sValue = sValue.replace(sRegExp, '$1,$2');
+        }
+        return sValue;
+    }
+
+    calculate();
+</script>
+</body>
+</html>

@@ -29,7 +29,6 @@
 <script>
     $(document).ready(function () {
 
-
         $.notify.defaults({
             className: 'success',
             elementPosition: 'bottom right'
@@ -115,8 +114,6 @@
                     get_cart_and_set();
                 }
             });
-
-
         });
 
         $(document).on('click', '.delete_item', function (e) {
@@ -125,9 +122,18 @@
                 url: '/api/v1/cart/' + cart_item_id +'/delete/',
                 type: 'DELETE',
                 success: function (res) {
-                    $(e.target).parent().parent().parent('.product-row').hide();
+                    var elem = $(e.target);
+                    console.dir(elem);
+                    if(!elem.hasClass('delete_item'))
+                    {
+                        $(e.target).parent().parent('.cart-item-row').remove();
+                    }
+                    else
+                    {
+                       $(e.target).parent('.item').remove();
+                    }
                     $.notify("{% trans 'Successful removed' %}", 'success');
-                    update_cart()
+                    get_cart_and_set();
                 },
                 error: function (error) {
                     console.log(error);
