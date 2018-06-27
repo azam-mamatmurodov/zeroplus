@@ -12,7 +12,7 @@
                 </h2>
                 <span class="price">{{ cart_item.product.get_price }} x {{ cart_item.count }} = {{ cart_item.total_price|floatformat|intcomma }}</span>
             </div>
-            <a href="" id="delete">X</a>
+            <a data-cart_item_id="{{ cart_item.id }}" class="delete_item delete" style="width: 10px; height: 10px; color: #000;">X</a>
         </div>
     {% endfor %}
 </div>

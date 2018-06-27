@@ -29,6 +29,7 @@ class CartViews(generics.ListAPIView):
                 'count': cart_instance.count,
                 'price': cart_instance.product.price,
                 'total_price': cart_instance.total_price,
+                'id': cart_instance.id,
             })
             total_price += Decimal(cart_instance.total_price)
         return {'total_price': "{:,}".format(int(total_price)).replace(',', ' '), 'items': cart_items}
@@ -55,7 +56,11 @@ class CartAddViews(generics.CreateAPIView):
         quantity = 1
         product = Product.objects.get(id=product_id)
 
-        total_price = Decimal(product.price) * Decimal(quantity)
+        price = product.price
+        if product.is_sale:
+            price = product.get_sale_price()
+
+        total_price = Decimal(price) * Decimal(quantity)
 
         new_cart_item, created = Cart.objects.get_or_create(session_key=self.session_key, product=product,
                                                             order=None,

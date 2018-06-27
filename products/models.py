@@ -147,6 +147,15 @@ class Product(models.Model):
     def get_related_products(self):
         return Product.objects.filter(category_id=self.category.id)
 
+    def get_sale_price(self):
+        try:
+            sale = Sale.objects.first()
+            sale_percent = sale.percent
+        except Sale.DoesNotExist:
+            sale_percent = 1
+        sale_price = self.price * sale_percent / 100
+        return self.price - sale_price
+
     class Meta:
         verbose_name = _('Product')
         verbose_name_plural = _('Products')

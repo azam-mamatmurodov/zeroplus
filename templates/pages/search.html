@@ -14,6 +14,9 @@
                         <a href="{{ product.get_absolute_url }}">
                             {{ product.name }}
                         </a>
+                        <div class="text">
+                            {{ product.description|safe|truncatewords:30 }}
+                        </div>
                     </div>
                 {% endfor %}
             </div>

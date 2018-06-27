@@ -1,4 +1,4 @@
-{% load static %}
+{% load static i18n %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -119,6 +119,21 @@
 
         });
 
+        $(document).on('click', '.delete_item', function (e) {
+            var cart_item_id = $(this).data('cart_item_id');
+            $.ajax({
+                url: '/api/v1/cart/' + cart_item_id +'/delete/',
+                type: 'DELETE',
+                success: function (res) {
+                    $(e.target).parent().parent().parent('.product-row').hide();
+                    $.notify("{% trans 'Successful removed' %}", 'success');
+                    update_cart()
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
 
 
     })
