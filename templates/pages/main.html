@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static thumbnail i18n %}
+{% load static thumbnail i18n humanize product_extras %}
 {% block title %}
 {{ site_name }} | {% trans 'Home page' %}
 {% endblock %}
@@ -102,44 +102,37 @@
         </div>
     </div>
 </div>
-<div class="saleBlock">
-	<div class="container">
-		<p class="saleTitle">-30% OFF Sale</p>
-		<div class="slider1">
-	        <div class="newSlider owl-carousel" id="slider1">
-	            <div class="item"><div class="block2">
-					<img src="{% static 'images/3.png' %}" alt="">
-					<p class="blockTxt">Lorem ipsum is a Pseudo-Latin</p>
-					<p class="bText"> <span><del> $29.99</del></span>$9.99</p>
-					<button class="addToCart">Add to cart</button>
-				</div></div>
-	            <div class="item">
-					<div class="block2">
-						<img src="{% static 'images/4.png' %}" alt="">
-						<p class="blockTxt">Lorem ipsum is a Pseudo-Latin</p>
-						<p class="bText"> <span><del> $29.99</del></span>$9.99</p>
-						<button class="addToCart">Add to cart</button>
-					</div>
-	            </div>
-	            <div class="item">
-					<div class="block2">
-						<img src="{% static 'images/2.png' %}" alt="">
-						<p class="blockTxt">Lorem ipsum is a Pseudo-Latin</p>
-						<p class="bText"> <span><del> $29.99</del></span>$9.99</p>
-						<button class="addToCart">Add to cart</button>
-					</div>
-	            </div>
-	              <div class="item">
-					<div class="block2">
-						<img src="{% static 'images/1.png' %}" alt="">
-						<p class="blockTxt">Lorem ipsum is a Pseudo-Latin</p>
-						<p class="bText"> <span><del> $29.99</del></span>$9.99</p>
-						<button class="addToCart">Add to cart</button>
-					</div>
-	            </div>
-	        </div>
+{% if sale_products.exists %}
+    <div class="saleBlock">
+        <div class="container">
+            <p class="saleTitle">-{{ sale_percent.percent }}% OFF Sale</p>
+            <div class="slider1">
+                <div class="newSlider owl-carousel" id="slider1">
+                    {% for sale_product in sale_products %}
+                        <div class="item">
+                            <div class="block2">
+                                <a href="{{ sale_product.get_absolute_url }}">
+                                    <img src="{{ sale_product.get_default_image.file.url }}" alt="{{ sale_product.name }}">
+                                    <p class="blockTxt">
+                                        {{ sale_product.name }}
+                                    </p>
+                                </a>
+                                <p class="bText">
+                                    <span>
+                                        <del> {{ sale_product.price|floatformat|intcomma }} {% trans 'soum' %}</del>
+                                    </span>
+                                    {{ sale_product.price|get_sale_price|floatformat|intcomma }} {% trans 'soum' %}
+                                </p>
+                                <button class="addToCart  cart_add" data-image="{{ sale_product.get_default_image.file.url }}" data-product="{{ sale_product.id }}">
+                                    {% trans 'Add to cart' %}
+                                </button>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
-	</div>
-</div>
+    </div>
+{% endif %}
 {{ footer }}
 {% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{{ site_name }} | {% trans 'Checkout' %}{% endblock %}
+
+{% block content %}
+    {{ header }}
+    {{ breadcrumbs }}
+    <div id="checkout_page" class="container">
+        <div class="row">
+            <div class="thank-you-content">
+                {% blocktrans %}
+                    Thanks you for buying from our website ! We'll soon contact you !
+                {% endblocktrans %}
+            </div>
+        </div>
+    </div>
+    {{ footer }}
+{% endblock %}

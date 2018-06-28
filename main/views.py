@@ -1,10 +1,8 @@
-from django.views.generic import TemplateView, DetailView, ListView, CreateView
+from django.views.generic import TemplateView, DetailView, CreateView
 from django.shortcuts import reverse
 
-from main.models import Static, Banner, News, Contact
-from products.models import Category, Product
-
-from parler.views import ViewUrlMixin, TranslatableSlugMixin
+from main.models import Static, Banner, Contact
+from products.models import Category, Product, Sale
 
 
 class HomeView(TemplateView):
@@ -15,6 +13,9 @@ class HomeView(TemplateView):
         context['categories'] = Category.objects.filter(parent__isnull=True).order_by('order')
         context['banners'] = Banner.objects.all().order_by('order')
         context['top_products'] = Product.objects.filter(is_recommended=True)
+        context['sale_products'] = Product.objects.filter(is_sale=True)
+        if Sale.objects.exists():
+            context['sale_percent'] = Sale.objects.first()
         return context
 
 
@@ -24,17 +25,6 @@ class StaticView(DetailView):
 
     def get_object(self, queryset=None):
         return self.model.objects.all().translated(slug=self.kwargs.get('slug')).first()
-
-
-class NewsListView(ListView):
-    model = News
-    template_name = 'pages/news.html'
-    context_object_name = 'news'
-
-
-class NewsDetailView(TranslatableSlugMixin, DetailView):
-    model = News
-    template_name = 'pages/news_detail.html'
 
 
 class ContactView(CreateView):

@@ -85,14 +85,19 @@ class CheckoutView(CreateView):
         for cart_item in cart_items:
             cart_item.order = order
             cart_item.save()
-        return redirect(reverse('orders:order_detail', args=[order.order_unique_id]))
+        return redirect(reverse('orders:thank_you', ))
 
 
-class OrderDetail(DetailView):
+class ThankYouView(TemplateView):
+    template_name = 'pages/orders/thank_you.html'
+
+
+class OrderDetailView(DetailView):
     template_name = 'pages/orders/order_detail.html'
     model = Order
 
     def get_object(self, queryset=None):
         order_unique_id = self.kwargs.get('order_unique_id')
         return self.model.objects.get(order_unique_id=order_unique_id, )
+
 

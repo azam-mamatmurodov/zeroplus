@@ -83,7 +83,7 @@
     {% if sale_products.exists %}
         <div class="saleBlock">
             <div class="container">
-                <p class="saleTitle">-30% OFF Sale</p>
+                <p class="saleTitle">-{{ sale_percent.percent }}% OFF Sale</p>
                 <div class="slider1">
                     <div class="newSlider owl-carousel" id="slider1">
                         {% for sale_product in sale_products %}

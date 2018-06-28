@@ -43,9 +43,9 @@
                                 {% if product.is_sale %}
                                     <span class="real_price">
                                         {{ product.get_price }}
-                                    </span>
+                                    </span> -
                                     <span class="sale_price">
-                                        {{ product.price|get_sale_price|intcomma }}
+                                        {{ product.price|get_sale_price|floatformat|intcomma }} {% trans 'soum' %}
                                     </span>
                                 {% else %}
                                     {{ product.get_price }}

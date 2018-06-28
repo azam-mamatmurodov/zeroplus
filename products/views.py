@@ -5,7 +5,7 @@ from django.shortcuts import Http404
 from django.db.models import Q, F
 import django_filters
 
-from products.models import Product, Category
+from products.models import Product, Category, Sale
 from products.forms import LeaveReviewForm
 
 
@@ -83,7 +83,9 @@ class ProductListView(ListView):
         slug = self.kwargs.get('slug')
         if slug:
             context['current_category'] = self.get_category()
-        context['sale_products'] = Product.objects.filter(is_sale=True)
+        if Sale.objects.exists():
+            context['sale_percent'] = Sale.objects.first()
+            context['sale_products'] = Product.objects.filter(is_sale=True)
         return context
 
 
