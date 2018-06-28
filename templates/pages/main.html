@@ -71,7 +71,7 @@
                                 <p class="blockTxt">{{ product.name }}</p>
                             </a>
                             <p class="bText">{{ product.get_price }}</p>
-                            <button class="addToCart" data-image="{{ product.get_default_image.file.url }}"
+                            <button class="addToCart cart_add" data-image="{{ product.get_default_image.file.url }}"
                                     data-product="{{ product.id }}">{% trans 'Add to cart' %}</button>
                         </div>
                     </div>
