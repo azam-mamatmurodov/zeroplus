@@ -40,7 +40,8 @@ class Menu(MPTTModel, TranslatableModel):
 class Banner(TranslatableModel):
     translations = TranslatedFields(
         name=models.CharField(max_length=60, verbose_name=_('Name')),
-        slug=models.SlugField(max_length=60, verbose_name=_('Slug')),
+        url=models.CharField(max_length=60, verbose_name=_('Url'), null=True),
+        body=RichTextUploadingField(null=True),
     )
     banner = FilerImageField(null=True, related_name='banner')
     order = models.IntegerField(default=0, verbose_name=_('Order'))

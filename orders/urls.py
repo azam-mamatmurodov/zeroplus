@@ -10,6 +10,6 @@ from orders.views import (
 urlpatterns = [
     url(r'^cart/$', CartView.as_view(), name='cart', ),
     url(r'^checkout/$', CheckoutView.as_view(), name='checkout', ),
-    url(r'^(?P<order_unique_id>[-\w]+)/$', OrderDetailView.as_view(), name='order_detail', ),
     url(r'^thank-you/$', ThankYouView.as_view(), name='thank_you', ),
+    url(r'^(?P<order_unique_id>[-\w]+)/$', OrderDetailView.as_view(), name='order_detail', ),
 ]

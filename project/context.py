@@ -88,6 +88,11 @@ def get_breadcrumbs(request, *args, **kwargs):
             'title': page_title,
             'path': reverse(view_name, args=[kwargs.get('order_unique_id')]),
         })
+    elif view_name == 'orders:thank_you':
+        paths.append({
+            'title': _('Thank you'),
+            'path': reverse(view_name),
+        })
     elif view_name == 'products:product_detail':
         slug = kwargs.get('slug')
         category = Category.objects.get(translations__slug=slug)

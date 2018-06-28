@@ -7,52 +7,33 @@
 {{ header }}
 <div class="slider2">
     <div class="newSlider2 owl-carousel" id="slider1">
-        <div class="item">
-            <div class="topBlock">
-                <div class="topBlock2">
-                    <div class="centerTitle">
-                        <div class="container">
-                        <div class="row">
-                        <div class="col-md-3"></div>
-                        <div class="col-md-6">
-                            <p class="title1">
-                                Cicero's version of Liber Primus
-                            </p>
-                            <p class="subtitle">
-                                Most of its text is made up from sections 1.10.32–3 of Cicero's De <br>finibus bonorum et malorum (On the Boundaries of Goods and Evils;
-                            </p>
-                            <button class="addToCart2 top">SHop now</button>
+        {% for banner in banners %}
+            <div class="item">
+                <div class="topBlock" style="background-image: url('{{ banner.banner.file.url }}')">
+                    <div class="topBlock2">
+                        <div class="centerTitle">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-6">
+                                        <p class="title1">
+                                            {{ banner.name }}
+                                        </p>
+                                        <p class="subtitle">
+                                            {{ banner.body|safe }}
+                                        </p>
+                                        <a href="{{ banner.url }}" class="addToCart2 top">
+                                            {% trans 'Shop now' %}
+                                        </a>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                </div>
                             </div>
-                            <div class="col-md-3"></div>
-                        </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-       <div class="item">
-            <div class="topBlock">
-                <div class="topBlock2">
-                    <div class="centerTitle">
-                        <div class="container">
-                        <div class="row">
-                        <div class="col-md-3"></div>
-                        <div class="col-md-6">
-                            <p class="title1">
-                                Cicero's version of Liber Primus
-                            </p>
-                            <p class="subtitle">
-                                Most of its text is made up from sections 1.10.32–3 of Cicero's De <br>finibus bonorum et malorum (On the Boundaries of Goods and Evils;
-                            </p>
-                            <button class="addToCart2 top">SHop now</button>
-                            </div>
-                            <div class="col-md-3"></div>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
     </div>
 </div>
 <div class="topClothes">
@@ -60,25 +41,17 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="contentBlock">
-                    <div class="leftBlock">
-                        <img src="{% static 'images/ad.png' %}" alt="">
-                        <div class="innerBlock">
-                            <div class="innerText">
-                                <p>Seize your moment</p>
-                                <button class="addToCart2">Shop now</button>
+                    {% for recommended_product in recommended_products %}
+                        <div class="{% if forloop.first %}leftBlock{% else %}rightBlock{% endif %}">
+                            <img src="{% thumbnail recommended_product.get_default_image.file 570x322 crop %}" alt="{{ recommended_product.name }}">
+                            <div class="innerBlock">
+                                <div class="innerText">
+                                    <p>{{ recommended_product.name }}</p>
+                                    <a href="{{ recommended_product.get_absolute_url }}" class="addToCart2">{% trans 'Shop now' %}</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="rightBlock">
-                        <img src="{% static 'images/OCRUY90.png' %}" alt="">
-                        <div class="innerBlock">
-                            <div class="innerText">
-                                <p>Brand-New Wedding Suits</p>
-                                <button class="addToCart2">Shop now</button>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -87,14 +60,14 @@
 <div class="goods">
     <div class="container">
         <div class="row">
-            {% for top_product in top_products %}
+            {% for product in products %}
                 <div class="col-md-3 col-sm-6">
                     <div class="block">
-                        <a href="{{ top_product.get_absolute_url }}">
-                            <img src="{% thumbnail top_product.get_default_image.file 261x244 crop %}" alt="" class="bImg">
-                            <p class="blockTxt">{{ top_product.name }}</p>
+                        <a href="{{ product.get_absolute_url }}">
+                            <img src="{% thumbnail product.get_default_image.file 261x244 crop %}" alt="" class="bImg">
+                            <p class="blockTxt">{{ product.name }}</p>
                         </a>
-                        <p class="bText">{{ top_product.get_price }}</p>
+                        <p class="bText">{{ product.get_price }}</p>
                         <button class="addToCart">{% trans 'Add to cart' %}</button>
                     </div>
                 </div>

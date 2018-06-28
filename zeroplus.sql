@@ -662,8 +662,9 @@ CREATE TABLE public.main_banner_translation (
     id integer NOT NULL,
     language_code character varying(15) NOT NULL,
     name character varying(60) NOT NULL,
-    slug character varying(60) NOT NULL,
-    master_id integer
+    master_id integer,
+    body text,
+    url character varying(60)
 );
 
 
@@ -2272,6 +2273,12 @@ COPY public.django_admin_log (id, action_time, object_id, object_repr, action_fl
 95	2018-06-26 14:28:30.749409+05	1	Sale object	3		41	1
 96	2018-06-26 14:28:36.340355+05	2	Sale object	1	[{"added": {}}]	41	1
 97	2018-06-26 14:52:46.802912+05	13	H. Rackham	2	[{"changed": {"fields": ["is_sale"]}}]	31	1
+98	2018-06-28 15:39:47.416379+05	2	Sale object	2	[{"changed": {"fields": ["percent"]}}]	41	1
+99	2018-06-28 20:42:57.401902+05	1	Cicero's version of Liber Primus	1	[{"added": {}}]	19	1
+100	2018-06-28 20:52:08.494126+05	2	Baby clothes	1	[{"added": {}}]	19	1
+101	2018-06-28 20:52:23.232505+05	1	Cicero's version of Liber Primus	2	[{"changed": {"fields": ["body"]}}]	19	1
+102	2018-06-28 21:02:26.496627+05	1	Cicero's version of Liber Primus	2	[{"changed": {"fields": ["url"]}}]	19	1
+103	2018-06-28 21:02:45.424273+05	2	Baby clothes	2	[{"changed": {"fields": ["url"]}}]	19	1
 \.
 
 
@@ -2279,7 +2286,7 @@ COPY public.django_admin_log (id, action_time, object_id, object_repr, action_fl
 -- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: zeroplus
 --
 
-SELECT pg_catalog.setval('public.django_admin_log_id_seq', 97, true);
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 103, true);
 
 
 --
@@ -2385,6 +2392,8 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 40	products	0012_product_is_sale	2018-06-26 14:09:57.821259+05
 41	products	0013_remove_product_sale_price	2018-06-26 14:23:47.184859+05
 42	products	0014_sale	2018-06-26 14:23:47.28572+05
+43	main	0006_bannertranslation_body	2018-06-28 20:50:39.913874+05
+44	main	0007_auto_20180628_2101	2018-06-28 21:01:29.504134+05
 \.
 
 
@@ -2392,7 +2401,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: zeroplus
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 42, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 44, true);
 
 
 --
@@ -2405,6 +2414,9 @@ hmqu5rus9fbzcbti52arm2tosj68fhpw	YmZmOTMxODdjOGRkMTQ0MTczZGRkZjFmMDA0MTQ4ZjRmNjg
 nly3vn66tffftyldn1xi6viioif0ym3x	M2ZmODc5ZTBlMzNhNWU3NWQzMmFiOWE0NWI0NjZiYTgzZDcyNWM2Njp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJlZjMxZjI0MDI4NTc2MmYwNjA0ZTMzMDczNDQ1MjQxODg2NjIxYjQ1IiwiZmlsZXJfbGFzdF9mb2xkZXJfaWQiOiIxIn0=	2018-07-07 16:30:25.033911+05
 onmwta6wnakd161zkbqebwuoc24f1kmd	ZmY4M2M2NjUyMWFmODkyNWE2YmFkNGMxODQ1NTU1MTZmNGNjZmMzMTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJlZjMxZjI0MDI4NTc2MmYwNjA0ZTMzMDczNDQ1MjQxODg2NjIxYjQ1In0=	2018-07-08 18:00:03.39376+05
 k0mv2jgk3f68a6ihphvn9kywz873n3zk	ZmY4M2M2NjUyMWFmODkyNWE2YmFkNGMxODQ1NTU1MTZmNGNjZmMzMTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJlZjMxZjI0MDI4NTc2MmYwNjA0ZTMzMDczNDQ1MjQxODg2NjIxYjQ1In0=	2018-07-10 13:54:02.076573+05
+8hs3q6yaih3ryt3npmosvf4aqa9kgh6e	ZmY4M2M2NjUyMWFmODkyNWE2YmFkNGMxODQ1NTU1MTZmNGNjZmMzMTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJlZjMxZjI0MDI4NTc2MmYwNjA0ZTMzMDczNDQ1MjQxODg2NjIxYjQ1In0=	2018-07-11 17:00:10.835318+05
+yrsuc38t8xw191r4bc1ihwb9v62ivshh	ZmY4M2M2NjUyMWFmODkyNWE2YmFkNGMxODQ1NTU1MTZmNGNjZmMzMTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJlZjMxZjI0MDI4NTc2MmYwNjA0ZTMzMDczNDQ1MjQxODg2NjIxYjQ1In0=	2018-07-12 15:39:37.266751+05
+rk13mzyfrpkatxn0ga8i150c4g9wa5o2	ZmY4M2M2NjUyMWFmODkyNWE2YmFkNGMxODQ1NTU1MTZmNGNjZmMzMTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJlZjMxZjI0MDI4NTc2MmYwNjA0ZTMzMDczNDQ1MjQxODg2NjIxYjQ1In0=	2018-07-12 20:41:27.364745+05
 \.
 
 
@@ -2423,31 +2435,33 @@ COPY public.easy_thumbnails_source (id, storage_hash, name, modified) FROM stdin
 8	f9bde26a1556cd667f742bd34ec7c55e	filer_public/20/38/20385e77-661e-46c4-b63b-5713475325cf/c1287d5e869f02ad2195001a3c27648e-backgrounds-wallpapers-hd-wallpaper_1.jpg	2018-06-23 12:26:05.433771+05
 10	f9bde26a1556cd667f742bd34ec7c55e	filer_public/d3/24/d3249a95-12e2-413b-86be-c4c4dd2249a4/awesome-rain-wallpaper_0.jpg	2018-06-23 12:26:05.985594+05
 9	f9bde26a1556cd667f742bd34ec7c55e	filer_public/58/69/586962ac-279e-4e7e-9874-1cd2d13df24c/vgjc50u.jpg	2018-06-23 12:26:06.436045+05
-35	f9bde26a1556cd667f742bd34ec7c55e	filer_public/c9/2a/c92aae3a-f271-46c6-a5ca-2192879d9a1c/mens-watch-and-ring_4460x4460.jpg	2018-06-24 16:25:46.98466+05
+30	f9bde26a1556cd667f742bd34ec7c55e	filer_public/da/96/da96ee12-d3d4-43ab-9283-db3e5f9dd6ee/mens-suit-watch_4460x4460_1.jpg	2018-06-28 21:09:52.430965+05
+23	f9bde26a1556cd667f742bd34ec7c55e	filer_public/d6/7e/d67eb067-0068-419a-8c87-023c535ebf34/mens-stylish-formalwear_4460x4460.jpg	2018-06-28 21:09:53.645712+05
 12	f9bde26a1556cd667f742bd34ec7c55e	filer_public/29/a9/29a93f57-5614-421e-ab5f-da0077111370/man-adjusts-blue-tuxedo-bowtie_4460x4460.jpg	2018-06-23 18:46:12.054787+05
+37	f9bde26a1556cd667f742bd34ec7c55e	filer_public/12/9c/129ccccb-7afd-4005-bfa2-b972856e0f10/kid-2185539_1920.jpg	2018-06-28 20:51:40.945543+05
 17	f9bde26a1556cd667f742bd34ec7c55e	filer_public/b5/e9/b5e93eb3-b9c0-479d-b40f-6e2c6aec9adc/mens-style_4460x4460.jpg	2018-06-23 17:37:50.125081+05
-23	f9bde26a1556cd667f742bd34ec7c55e	filer_public/d6/7e/d67eb067-0068-419a-8c87-023c535ebf34/mens-stylish-formalwear_4460x4460.jpg	2018-06-23 17:37:51.25598+05
-18	f9bde26a1556cd667f742bd34ec7c55e	filer_public/d4/9f/d49f3d11-340e-4b48-b409-f63ab856b0c6/man-looking-down-in-suit_4460x4460.jpg	2018-06-24 16:59:15.929581+05
+34	f9bde26a1556cd667f742bd34ec7c55e	filer_public/1b/f9/1bf9e97d-1300-43d1-9fe4-fd84c03c34d1/mens-grey-black-suit_4460x4460.jpg	2018-06-28 21:08:45.921863+05
+18	f9bde26a1556cd667f742bd34ec7c55e	filer_public/d4/9f/d49f3d11-340e-4b48-b409-f63ab856b0c6/man-looking-down-in-suit_4460x4460.jpg	2018-06-28 21:08:47.019819+05
 19	f9bde26a1556cd667f742bd34ec7c55e	filer_public/70/b0/70b0735d-4c8f-43c2-a13b-a3f4d80fa4b3/three-piece-suit_4460x4460.jpg	2018-06-23 16:10:14.549044+05
 20	f9bde26a1556cd667f742bd34ec7c55e	filer_public/34/74/3474412a-1898-498a-a710-23237ef13502/tie-clip_4460x4460.jpg	2018-06-23 16:10:20.443308+05
-28	f9bde26a1556cd667f742bd34ec7c55e	filer_public/b6/6a/b66ae889-4dd7-4b16-b5b1-9275ce240f38/stylish-man-in-bow-tie_4460x4460.jpg	2018-06-24 18:05:22.388191+05
 11	f9bde26a1556cd667f742bd34ec7c55e	filer_public/ec/77/ec7724df-efac-4762-8adb-bdb7fcd19dd7/stylish-man-on-phone_4460x4460.jpg	2018-06-24 18:05:23.573101+05
+28	f9bde26a1556cd667f742bd34ec7c55e	filer_public/b6/6a/b66ae889-4dd7-4b16-b5b1-9275ce240f38/stylish-man-in-bow-tie_4460x4460.jpg	2018-06-28 21:08:48.186961+05
 24	f9bde26a1556cd667f742bd34ec7c55e	filer_public/e1/d0/e1d064c0-f33a-48a2-bed4-beccea37b6ca/suit-and-tie_4460x4460.jpg	2018-06-23 16:10:26.475708+05
+27	f9bde26a1556cd667f742bd34ec7c55e	filer_public/13/18/1318aeac-74c7-4177-9149-00bcc6ffcd51/mens-grey-black-suit_4460x4460_1.jpg	2018-06-28 21:09:02.547707+05
 33	f9bde26a1556cd667f742bd34ec7c55e	filer_public/64/58/64580bfa-a399-4caf-80b8-350f84186059/mens-suit-watch_4460x4460.jpg	2018-06-24 18:05:24.851569+05
 26	f9bde26a1556cd667f742bd34ec7c55e	filer_public/36/fc/36fcbc16-137c-4d8e-9d52-affc2d34ad04/wedding-photography-bride-groom_4460x4460.jpg	2018-06-23 16:10:32.535311+05
-30	f9bde26a1556cd667f742bd34ec7c55e	filer_public/da/96/da96ee12-d3d4-43ab-9283-db3e5f9dd6ee/mens-suit-watch_4460x4460_1.jpg	2018-06-23 18:30:14.889792+05
-34	f9bde26a1556cd667f742bd34ec7c55e	filer_public/1b/f9/1bf9e97d-1300-43d1-9fe4-fd84c03c34d1/mens-grey-black-suit_4460x4460.jpg	2018-06-23 18:33:41.178363+05
+25	f9bde26a1556cd667f742bd34ec7c55e	filer_public/39/4a/394a7341-3694-4deb-b987-48838513feba/businessman-on-smartphone_4460x4460.jpg	2018-06-28 21:09:44.360009+05
+13	f9bde26a1556cd667f742bd34ec7c55e	filer_public/9e/09/9e094392-3320-4143-b217-e9870098546a/businessman-working-on-phone_4460x4460.jpg	2018-06-28 21:10:17.7948+05
 31	f9bde26a1556cd667f742bd34ec7c55e	filer_public/c4/b9/c4b97913-fb2b-40c9-a3e2-f2a4fd2d299f/white-faced-watch_4460x4460.jpg	2018-06-23 16:10:38.60787+05
+35	f9bde26a1556cd667f742bd34ec7c55e	filer_public/c9/2a/c92aae3a-f271-46c6-a5ca-2192879d9a1c/mens-watch-and-ring_4460x4460.jpg	2018-06-28 21:10:21.356794+05
 32	f9bde26a1556cd667f742bd34ec7c55e	filer_public/4a/b8/4ab8258a-f96e-4358-ad91-8ae83e300947/mens-business-fashion_4460x4460.jpg	2018-06-23 16:10:44.413518+05
 29	f9bde26a1556cd667f742bd34ec7c55e	filer_public/53/bf/53bfff3a-63fb-471e-90fb-cce42f42494f/mans-hands-lean-on-ledge_4460x4460.jpg	2018-06-23 18:33:42.530594+05
 22	f9bde26a1556cd667f742bd34ec7c55e	filer_public/3b/85/3b85be49-9b8c-4e37-b301-41d0061e289d/professional-man-smiling_4460x4460.jpg	2018-06-23 19:10:05.432715+05
-27	f9bde26a1556cd667f742bd34ec7c55e	filer_public/13/18/1318aeac-74c7-4177-9149-00bcc6ffcd51/mens-grey-black-suit_4460x4460_1.jpg	2018-06-24 18:27:57.096469+05
 14	f9bde26a1556cd667f742bd34ec7c55e	filer_public/6d/ad/6dad1ffa-7a4c-4544-a60f-17c7e49cd758/man-of-luxury-celebrates_4460x4460.jpg	2018-06-24 18:27:58.451305+05
 15	f9bde26a1556cd667f742bd34ec7c55e	filer_public/6c/d6/6cd6b8c2-eff5-4156-80cc-4b9fab0ca8a1/man-fixes-shirt-cuff_4460x4460.jpg	2018-06-23 18:33:49.971168+05
 21	f9bde26a1556cd667f742bd34ec7c55e	filer_public/16/ba/16ba83cb-0be3-4e05-a4da-4c5fd8f3fcff/man-talking-on-cellphone_4460x4460.jpg	2018-06-23 18:33:51.087222+05
-25	f9bde26a1556cd667f742bd34ec7c55e	filer_public/39/4a/394a7341-3694-4deb-b987-48838513feba/businessman-on-smartphone_4460x4460.jpg	2018-06-24 16:25:43.007807+05
-13	f9bde26a1556cd667f742bd34ec7c55e	filer_public/9e/09/9e094392-3320-4143-b217-e9870098546a/businessman-working-on-phone_4460x4460.jpg	2018-06-24 16:25:44.463266+05
-16	f9bde26a1556cd667f742bd34ec7c55e	filer_public/98/9f/989f3bca-0ac0-4d06-97a9-bc6fe2d0448c/black-white-wrist-watches_4460x4460.jpg	2018-06-24 16:25:45.798913+05
+36	f9bde26a1556cd667f742bd34ec7c55e	filer_public/5f/3d/5f3d5185-259c-432e-a2bf-4e9c5c38e0f6/hero-background.png	2018-06-28 20:42:36.447299+05
+16	f9bde26a1556cd667f742bd34ec7c55e	filer_public/98/9f/989f3bca-0ac0-4d06-97a9-bc6fe2d0448c/black-white-wrist-watches_4460x4460.jpg	2018-06-28 21:09:45.760475+05
 \.
 
 
@@ -2455,7 +2469,7 @@ COPY public.easy_thumbnails_source (id, storage_hash, name, modified) FROM stdin
 -- Name: easy_thumbnails_source_id_seq; Type: SEQUENCE SET; Schema: public; Owner: zeroplus
 --
 
-SELECT pg_catalog.setval('public.easy_thumbnails_source_id_seq', 35, true);
+SELECT pg_catalog.setval('public.easy_thumbnails_source_id_seq', 37, true);
 
 
 --
@@ -2526,12 +2540,38 @@ COPY public.easy_thumbnails_thumbnail (id, storage_hash, name, modified, source_
 224	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/9e/09/9e094392-3320-4143-b217-e9870098546a/businessman-working-on-phone_4460x4460.jpg__261x244_q85_crop_subsampling-2.jpg	2018-06-24 16:25:44.486026+05	13
 225	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/98/9f/989f3bca-0ac0-4d06-97a9-bc6fe2d0448c/black-white-wrist-watches_4460x4460.jpg__261x244_q85_crop_subsampling-2.jpg	2018-06-24 16:25:45.82564+05	16
 226	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/c9/2a/c92aae3a-f271-46c6-a5ca-2192879d9a1c/mens-watch-and-ring_4460x4460.jpg__261x244_q85_crop_subsampling-2.jpg	2018-06-24 16:25:47.010176+05	35
+233	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/39/4a/394a7341-3694-4deb-b987-48838513feba/businessman-on-smartphone_4460x4460.jpg__200x200_q85_crop_subsampling-2.jpg	2018-06-27 19:03:32.91817+05	25
+234	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/98/9f/989f3bca-0ac0-4d06-97a9-bc6fe2d0448c/black-white-wrist-watches_4460x4460.jpg__200x200_q85_crop_subsampling-2.jpg	2018-06-27 19:03:34.136211+05	16
+235	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/da/96/da96ee12-d3d4-43ab-9283-db3e5f9dd6ee/mens-suit-watch_4460x4460_1.jpg__200x200_q85_crop_subsampling-2.jpg	2018-06-27 19:03:35.166136+05	30
+236	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/1b/f9/1bf9e97d-1300-43d1-9fe4-fd84c03c34d1/mens-grey-black-suit_4460x4460.jpg__200x200_q85_crop_subsampling-2.jpg	2018-06-27 19:03:36.317381+05	34
+237	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/b6/6a/b66ae889-4dd7-4b16-b5b1-9275ce240f38/stylish-man-in-bow-tie_4460x4460.jpg__200x200_q85_crop_subsampling-2.jpg	2018-06-27 19:03:37.546124+05	28
+238	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/c9/2a/c92aae3a-f271-46c6-a5ca-2192879d9a1c/mens-watch-and-ring_4460x4460.jpg__200x200_q85_crop_subsampling-2.jpg	2018-06-27 19:03:38.77516+05	35
+239	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/9e/09/9e094392-3320-4143-b217-e9870098546a/businessman-working-on-phone_4460x4460.jpg__200x200_q85_crop_subsampling-2.jpg	2018-06-27 19:03:40.092332+05	13
+240	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/13/18/1318aeac-74c7-4177-9149-00bcc6ffcd51/mens-grey-black-suit_4460x4460_1.jpg__200x200_q85_crop_subsampling-2.jpg	2018-06-27 19:03:41.254822+05	27
+251	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/5f/3d/5f3d5185-259c-432e-a2bf-4e9c5c38e0f6/hero-background.png__16x16_q85_crop_subsampling-2_upscale.png	2018-06-28 20:42:36.471805+05	36
+252	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/5f/3d/5f3d5185-259c-432e-a2bf-4e9c5c38e0f6/hero-background.png__32x32_q85_crop_subsampling-2_upscale.png	2018-06-28 20:42:36.730907+05	36
+253	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/5f/3d/5f3d5185-259c-432e-a2bf-4e9c5c38e0f6/hero-background.png__48x48_q85_crop_subsampling-2_upscale.png	2018-06-28 20:42:36.874749+05	36
+254	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/5f/3d/5f3d5185-259c-432e-a2bf-4e9c5c38e0f6/hero-background.png__64x64_q85_crop_subsampling-2_upscale.png	2018-06-28 20:42:37.019731+05	36
+255	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/5f/3d/5f3d5185-259c-432e-a2bf-4e9c5c38e0f6/hero-background.png__180x180_q85_crop_subsampling-2_upscale.png	2018-06-28 20:42:37.202477+05	36
 52	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/ec/77/ec7724df-efac-4762-8adb-bdb7fcd19dd7/stylish-man-on-phone_4460x4460.jpg__16x16_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:00.950875+05	11
 55	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/ec/77/ec7724df-efac-4762-8adb-bdb7fcd19dd7/stylish-man-on-phone_4460x4460.jpg__32x32_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:02.267333+05	11
 58	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/ec/77/ec7724df-efac-4762-8adb-bdb7fcd19dd7/stylish-man-on-phone_4460x4460.jpg__48x48_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:03.527331+05	11
 61	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/ec/77/ec7724df-efac-4762-8adb-bdb7fcd19dd7/stylish-man-on-phone_4460x4460.jpg__64x64_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:04.918808+05	11
 64	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/ec/77/ec7724df-efac-4762-8adb-bdb7fcd19dd7/stylish-man-on-phone_4460x4460.jpg__180x180_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:06.481618+05	11
 227	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/d4/9f/d49f3d11-340e-4b48-b409-f63ab856b0c6/man-looking-down-in-suit_4460x4460.jpg__480x350_q85_crop_subsampling-2.jpg	2018-06-24 16:59:15.961624+05	18
+241	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/39/4a/394a7341-3694-4deb-b987-48838513feba/businessman-on-smartphone_4460x4460.jpg__140x140_q85_crop_subsampling-2.jpg	2018-06-27 19:03:59.342902+05	25
+242	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/98/9f/989f3bca-0ac0-4d06-97a9-bc6fe2d0448c/black-white-wrist-watches_4460x4460.jpg__140x140_q85_crop_subsampling-2.jpg	2018-06-27 19:04:00.527512+05	16
+243	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/da/96/da96ee12-d3d4-43ab-9283-db3e5f9dd6ee/mens-suit-watch_4460x4460_1.jpg__140x140_q85_crop_subsampling-2.jpg	2018-06-27 19:04:01.637748+05	30
+244	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/1b/f9/1bf9e97d-1300-43d1-9fe4-fd84c03c34d1/mens-grey-black-suit_4460x4460.jpg__140x140_q85_crop_subsampling-2.jpg	2018-06-27 19:04:02.734008+05	34
+245	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/b6/6a/b66ae889-4dd7-4b16-b5b1-9275ce240f38/stylish-man-in-bow-tie_4460x4460.jpg__140x140_q85_crop_subsampling-2.jpg	2018-06-27 19:04:03.851992+05	28
+246	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/c9/2a/c92aae3a-f271-46c6-a5ca-2192879d9a1c/mens-watch-and-ring_4460x4460.jpg__140x140_q85_crop_subsampling-2.jpg	2018-06-27 19:04:04.870549+05	35
+247	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/9e/09/9e094392-3320-4143-b217-e9870098546a/businessman-working-on-phone_4460x4460.jpg__140x140_q85_crop_subsampling-2.jpg	2018-06-27 19:04:05.96659+05	13
+248	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/13/18/1318aeac-74c7-4177-9149-00bcc6ffcd51/mens-grey-black-suit_4460x4460_1.jpg__140x140_q85_crop_subsampling-2.jpg	2018-06-27 19:04:06.985188+05	27
+256	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/12/9c/129ccccb-7afd-4005-bfa2-b972856e0f10/kid-2185539_1920.jpg__16x16_q85_crop_subsampling-2_upscale.jpg	2018-06-28 20:51:40.961462+05	37
+257	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/12/9c/129ccccb-7afd-4005-bfa2-b972856e0f10/kid-2185539_1920.jpg__32x32_q85_crop_subsampling-2_upscale.jpg	2018-06-28 20:51:41.214048+05	37
+258	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/12/9c/129ccccb-7afd-4005-bfa2-b972856e0f10/kid-2185539_1920.jpg__48x48_q85_crop_subsampling-2_upscale.jpg	2018-06-28 20:51:41.433658+05	37
+259	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/12/9c/129ccccb-7afd-4005-bfa2-b972856e0f10/kid-2185539_1920.jpg__64x64_q85_crop_subsampling-2_upscale.jpg	2018-06-28 20:51:41.631603+05	37
+260	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/12/9c/129ccccb-7afd-4005-bfa2-b972856e0f10/kid-2185539_1920.jpg__180x180_q85_crop_subsampling-2_upscale.jpg	2018-06-28 20:51:41.861054+05	37
 53	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/9e/09/9e094392-3320-4143-b217-e9870098546a/businessman-working-on-phone_4460x4460.jpg__16x16_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:01.183362+05	13
 56	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/9e/09/9e094392-3320-4143-b217-e9870098546a/businessman-working-on-phone_4460x4460.jpg__32x32_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:02.494028+05	13
 59	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/9e/09/9e094392-3320-4143-b217-e9870098546a/businessman-working-on-phone_4460x4460.jpg__48x48_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:03.775385+05	13
@@ -2540,6 +2580,11 @@ COPY public.easy_thumbnails_thumbnail (id, storage_hash, name, modified, source_
 228	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/b6/6a/b66ae889-4dd7-4b16-b5b1-9275ce240f38/stylish-man-in-bow-tie_4460x4460.jpg__480x350_q85_crop_subsampling-2.jpg	2018-06-24 18:05:22.405444+05	28
 229	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/ec/77/ec7724df-efac-4762-8adb-bdb7fcd19dd7/stylish-man-on-phone_4460x4460.jpg__480x350_q85_crop_subsampling-2.jpg	2018-06-24 18:05:23.590323+05	11
 230	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/64/58/64580bfa-a399-4caf-80b8-350f84186059/mens-suit-watch_4460x4460.jpg__480x350_q85_crop_subsampling-2.jpg	2018-06-24 18:05:25.207857+05	33
+249	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/d6/7e/d67eb067-0068-419a-8c87-023c535ebf34/mens-stylish-formalwear_4460x4460.jpg__140x140_q85_crop_subsampling-2.jpg	2018-06-27 19:07:33.666715+05	23
+250	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/d4/9f/d49f3d11-340e-4b48-b409-f63ab856b0c6/man-looking-down-in-suit_4460x4460.jpg__140x140_q85_crop_subsampling-2.jpg	2018-06-27 19:07:34.773853+05	18
+261	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/1b/f9/1bf9e97d-1300-43d1-9fe4-fd84c03c34d1/mens-grey-black-suit_4460x4460.jpg__261x244_q85_crop_subsampling-2.jpg	2018-06-28 21:08:45.942842+05	34
+262	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/d4/9f/d49f3d11-340e-4b48-b409-f63ab856b0c6/man-looking-down-in-suit_4460x4460.jpg__261x244_q85_crop_subsampling-2.jpg	2018-06-28 21:08:47.050219+05	18
+263	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/b6/6a/b66ae889-4dd7-4b16-b5b1-9275ce240f38/stylish-man-in-bow-tie_4460x4460.jpg__261x244_q85_crop_subsampling-2.jpg	2018-06-28 21:08:48.223706+05	28
 66	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/6d/ad/6dad1ffa-7a4c-4544-a60f-17c7e49cd758/man-of-luxury-celebrates_4460x4460.jpg__16x16_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:07.949284+05	14
 70	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/6d/ad/6dad1ffa-7a4c-4544-a60f-17c7e49cd758/man-of-luxury-celebrates_4460x4460.jpg__32x32_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:09.286886+05	14
 73	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/6d/ad/6dad1ffa-7a4c-4544-a60f-17c7e49cd758/man-of-luxury-celebrates_4460x4460.jpg__48x48_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:10.553615+05	14
@@ -2547,26 +2592,33 @@ COPY public.easy_thumbnails_thumbnail (id, storage_hash, name, modified, source_
 79	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/6d/ad/6dad1ffa-7a4c-4544-a60f-17c7e49cd758/man-of-luxury-celebrates_4460x4460.jpg__180x180_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:13.182498+05	14
 231	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/13/18/1318aeac-74c7-4177-9149-00bcc6ffcd51/mens-grey-black-suit_4460x4460_1.jpg__480x350_q85_crop_subsampling-2.jpg	2018-06-24 18:27:57.123593+05	27
 232	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/6d/ad/6dad1ffa-7a4c-4544-a60f-17c7e49cd758/man-of-luxury-celebrates_4460x4460.jpg__480x350_q85_crop_subsampling-2.jpg	2018-06-24 18:27:58.474716+05	14
+264	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/13/18/1318aeac-74c7-4177-9149-00bcc6ffcd51/mens-grey-black-suit_4460x4460_1.jpg__261x244_q85_crop_subsampling-2.jpg	2018-06-28 21:09:02.570563+05	27
 67	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/6c/d6/6cd6b8c2-eff5-4156-80cc-4b9fab0ca8a1/man-fixes-shirt-cuff_4460x4460.jpg__16x16_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:08.041886+05	15
 69	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/6c/d6/6cd6b8c2-eff5-4156-80cc-4b9fab0ca8a1/man-fixes-shirt-cuff_4460x4460.jpg__32x32_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:09.184051+05	15
 72	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/6c/d6/6cd6b8c2-eff5-4156-80cc-4b9fab0ca8a1/man-fixes-shirt-cuff_4460x4460.jpg__48x48_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:10.34876+05	15
 75	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/6c/d6/6cd6b8c2-eff5-4156-80cc-4b9fab0ca8a1/man-fixes-shirt-cuff_4460x4460.jpg__64x64_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:11.610199+05	15
 78	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/6c/d6/6cd6b8c2-eff5-4156-80cc-4b9fab0ca8a1/man-fixes-shirt-cuff_4460x4460.jpg__180x180_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:12.87359+05	15
+265	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/39/4a/394a7341-3694-4deb-b987-48838513feba/businessman-on-smartphone_4460x4460.jpg__570x322_q85_crop_subsampling-2.jpg	2018-06-28 21:09:44.392916+05	25
+266	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/98/9f/989f3bca-0ac0-4d06-97a9-bc6fe2d0448c/black-white-wrist-watches_4460x4460.jpg__570x322_q85_crop_subsampling-2.jpg	2018-06-28 21:09:45.932107+05	16
 68	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/98/9f/989f3bca-0ac0-4d06-97a9-bc6fe2d0448c/black-white-wrist-watches_4460x4460.jpg__16x16_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:08.157718+05	16
 71	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/98/9f/989f3bca-0ac0-4d06-97a9-bc6fe2d0448c/black-white-wrist-watches_4460x4460.jpg__32x32_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:09.395136+05	16
 74	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/98/9f/989f3bca-0ac0-4d06-97a9-bc6fe2d0448c/black-white-wrist-watches_4460x4460.jpg__48x48_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:10.739079+05	16
 77	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/98/9f/989f3bca-0ac0-4d06-97a9-bc6fe2d0448c/black-white-wrist-watches_4460x4460.jpg__64x64_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:11.955764+05	16
 80	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/98/9f/989f3bca-0ac0-4d06-97a9-bc6fe2d0448c/black-white-wrist-watches_4460x4460.jpg__180x180_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:13.287384+05	16
+267	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/da/96/da96ee12-d3d4-43ab-9283-db3e5f9dd6ee/mens-suit-watch_4460x4460_1.jpg__261x244_q85_crop_subsampling-2.jpg	2018-06-28 21:09:52.452527+05	30
+268	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/d6/7e/d67eb067-0068-419a-8c87-023c535ebf34/mens-stylish-formalwear_4460x4460.jpg__261x244_q85_crop_subsampling-2.jpg	2018-06-28 21:09:53.671551+05	23
 81	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/b5/e9/b5e93eb3-b9c0-479d-b40f-6e2c6aec9adc/mens-style_4460x4460.jpg__16x16_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:14.268613+05	17
 84	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/b5/e9/b5e93eb3-b9c0-479d-b40f-6e2c6aec9adc/mens-style_4460x4460.jpg__32x32_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:15.449437+05	17
 87	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/b5/e9/b5e93eb3-b9c0-479d-b40f-6e2c6aec9adc/mens-style_4460x4460.jpg__48x48_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:16.619213+05	17
 91	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/b5/e9/b5e93eb3-b9c0-479d-b40f-6e2c6aec9adc/mens-style_4460x4460.jpg__64x64_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:17.830896+05	17
 94	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/b5/e9/b5e93eb3-b9c0-479d-b40f-6e2c6aec9adc/mens-style_4460x4460.jpg__180x180_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:19.084233+05	17
+269	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/9e/09/9e094392-3320-4143-b217-e9870098546a/businessman-working-on-phone_4460x4460.jpg__570x322_q85_crop_subsampling-2.jpg	2018-06-28 21:10:17.815151+05	13
 82	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/d4/9f/d49f3d11-340e-4b48-b409-f63ab856b0c6/man-looking-down-in-suit_4460x4460.jpg__16x16_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:14.423525+05	18
 85	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/d4/9f/d49f3d11-340e-4b48-b409-f63ab856b0c6/man-looking-down-in-suit_4460x4460.jpg__32x32_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:15.557793+05	18
 88	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/d4/9f/d49f3d11-340e-4b48-b409-f63ab856b0c6/man-looking-down-in-suit_4460x4460.jpg__48x48_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:16.712963+05	18
 90	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/d4/9f/d49f3d11-340e-4b48-b409-f63ab856b0c6/man-looking-down-in-suit_4460x4460.jpg__64x64_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:17.811843+05	18
 93	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/d4/9f/d49f3d11-340e-4b48-b409-f63ab856b0c6/man-looking-down-in-suit_4460x4460.jpg__180x180_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:18.99626+05	18
+270	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/c9/2a/c92aae3a-f271-46c6-a5ca-2192879d9a1c/mens-watch-and-ring_4460x4460.jpg__570x322_q85_crop_subsampling-2.jpg	2018-06-28 21:10:21.765281+05	35
 83	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/70/b0/70b0735d-4c8f-43c2-a13b-a3f4d80fa4b3/three-piece-suit_4460x4460.jpg__16x16_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:14.567479+05	19
 86	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/70/b0/70b0735d-4c8f-43c2-a13b-a3f4d80fa4b3/three-piece-suit_4460x4460.jpg__32x32_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:15.656086+05	19
 89	f9bde26a1556cd667f742bd34ec7c55e	filer_public_thumbnails/filer_public/70/b0/70b0735d-4c8f-43c2-a13b-a3f4d80fa4b3/three-piece-suit_4460x4460.jpg__48x48_q85_crop_subsampling-2_upscale.jpg	2018-06-23 16:10:16.810722+05	19
@@ -2702,7 +2754,7 @@ COPY public.easy_thumbnails_thumbnail (id, storage_hash, name, modified, source_
 -- Name: easy_thumbnails_thumbnail_id_seq; Type: SEQUENCE SET; Schema: public; Owner: zeroplus
 --
 
-SELECT pg_catalog.setval('public.easy_thumbnails_thumbnail_id_seq', 232, true);
+SELECT pg_catalog.setval('public.easy_thumbnails_thumbnail_id_seq', 270, true);
 
 
 --
@@ -2791,6 +2843,8 @@ COPY public.filer_file (id, file, _file_size, sha1, has_all_mandatory_data, orig
 33	filer_public/64/58/64580bfa-a399-4caf-80b8-350f84186059/mens-suit-watch_4460x4460.jpg	903539	51d80d1f9716ebefa545ed6d0df5b899b754cc33	f	mens-suit-watch_4460x4460.jpg		\N	2018-06-23 16:10:43.355305+05	2018-06-23 16:10:43.355388+05	t	1	1	15
 34	filer_public/1b/f9/1bf9e97d-1300-43d1-9fe4-fd84c03c34d1/mens-grey-black-suit_4460x4460.jpg	974558	e6f4f0ae44217c03ecb51bd391c881f38dc4d9b4	f	mens-grey-black-suit_4460x4460.jpg		\N	2018-06-23 16:10:43.442232+05	2018-06-23 16:10:43.442316+05	t	1	1	15
 35	filer_public/c9/2a/c92aae3a-f271-46c6-a5ca-2192879d9a1c/mens-watch-and-ring_4460x4460.jpg	1256126	3c9be1d07deec80d24230685c15214160925f486	f	mens-watch-and-ring_4460x4460.jpg		\N	2018-06-23 16:10:49.251813+05	2018-06-23 16:10:49.251891+05	t	1	1	15
+36	filer_public/5f/3d/5f3d5185-259c-432e-a2bf-4e9c5c38e0f6/hero-background.png	698237	01edcc03ac17f0cb45d2f6b000cbeab358ec9a78	f	hero-background.png		\N	2018-06-28 20:42:36.144034+05	2018-06-28 20:42:36.144102+05	t	\N	1	15
+37	filer_public/12/9c/129ccccb-7afd-4005-bfa2-b972856e0f10/kid-2185539_1920.jpg	361519	f7747926a1188d3832bff17327ff2dd9843574d1	f	kid-2185539_1920.jpg		\N	2018-06-28 20:51:40.730385+05	2018-06-28 20:51:40.730427+05	t	\N	1	15
 \.
 
 
@@ -2798,7 +2852,7 @@ COPY public.filer_file (id, file, _file_size, sha1, has_all_mandatory_data, orig
 -- Name: filer_file_id_seq; Type: SEQUENCE SET; Schema: public; Owner: zeroplus
 --
 
-SELECT pg_catalog.setval('public.filer_file_id_seq', 35, true);
+SELECT pg_catalog.setval('public.filer_file_id_seq', 37, true);
 
 
 --
@@ -2872,6 +2926,8 @@ COPY public.filer_image (_height, _width, default_alt_text, default_caption, sub
 4459	2974	\N	\N		33	2018-06-23 16:10:43.328727+05	\N	f	f
 4460	2975	\N	\N		34	2018-06-23 16:10:43.365459+05	\N	f	f
 2975	4460	\N	\N		35	2018-06-23 16:10:49.237006+05	\N	f	f
+659	1159	\N	\N		36	2018-06-28 20:42:35.979978+05	\N	f	f
+1281	1920	\N	\N		37	2018-06-28 20:51:40.716863+05	\N	f	f
 \.
 
 
@@ -2895,6 +2951,8 @@ SELECT pg_catalog.setval('public.filer_thumbnailoption_id_seq', 1, false);
 --
 
 COPY public.main_banner (id, "order", banner_id) FROM stdin;
+1	1	36
+2	2	37
 \.
 
 
@@ -2902,14 +2960,16 @@ COPY public.main_banner (id, "order", banner_id) FROM stdin;
 -- Name: main_banner_id_seq; Type: SEQUENCE SET; Schema: public; Owner: zeroplus
 --
 
-SELECT pg_catalog.setval('public.main_banner_id_seq', 1, false);
+SELECT pg_catalog.setval('public.main_banner_id_seq', 2, true);
 
 
 --
 -- Data for Name: main_banner_translation; Type: TABLE DATA; Schema: public; Owner: zeroplus
 --
 
-COPY public.main_banner_translation (id, language_code, name, slug, master_id) FROM stdin;
+COPY public.main_banner_translation (id, language_code, name, master_id, body, url) FROM stdin;
+1	ru	Cicero's version of Liber Primus	1	<p>Most of its text is made up from sections 1.10.32&ndash;3 of Cicero&#39;s De<br />\r\nfinibus bonorum et malorum (On the Boundaries of Goods and Evils;</p>	/ru/products/malchiki/kossoa/
+2	ru	Baby clothes	2	<p>Most of its text is made up from sections 1.10.32&ndash;3 of Cicero&#39;s De<br />\r\nfinibus bonorum et malorum (On the Boundaries of Goods and Evils;</p>	/ru/products/podrostkovyj/good-doleaqas/
 \.
 
 
@@ -2917,7 +2977,7 @@ COPY public.main_banner_translation (id, language_code, name, slug, master_id) F
 -- Name: main_banner_translation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: zeroplus
 --
 
-SELECT pg_catalog.setval('public.main_banner_translation_id_seq', 1, false);
+SELECT pg_catalog.setval('public.main_banner_translation_id_seq', 2, true);
 
 
 --
@@ -3043,21 +3103,25 @@ SELECT pg_catalog.setval('public.main_static_translation_id_seq', 3, true);
 --
 
 COPY public.orders_cart (id, count, status, total_price, order_id, product_id, session_key) FROM stdin;
-2	8	t	56000.00	\N	3	9c29d607-2c21-402b-9c50-7d0438439c71
+48	1	t	19000.00	\N	8	b76a715a-9071-4f5f-b6ad-fe3024134791
+49	1	t	1500.00	\N	7	b76a715a-9071-4f5f-b6ad-fe3024134791
+50	1	t	13000.00	\N	6	b76a715a-9071-4f5f-b6ad-fe3024134791
+53	5	t	30000.00	\N	2	90c19cc4-77f5-40c5-a80b-6bb664366569
+45	4	t	16000.00	3	13	9c29d607-2c21-402b-9c50-7d0438439c71
 7	2	t	14000.00	\N	3	939ce4f6-98ae-4aa9-85a3-bf01480e3d61
 10	1	t	13000.00	\N	6	939ce4f6-98ae-4aa9-85a3-bf01480e3d61
 11	1	t	55000.00	\N	12	939ce4f6-98ae-4aa9-85a3-bf01480e3d61
-12	4	t	6000.00	\N	7	9c29d607-2c21-402b-9c50-7d0438439c71
-13	4	t	120.00	\N	11	9c29d607-2c21-402b-9c50-7d0438439c71
-4	3	t	4500.00	\N	1	9c29d607-2c21-402b-9c50-7d0438439c71
-14	5	t	750000.00	\N	5	9c29d607-2c21-402b-9c50-7d0438439c71
+51	2	t	38000.00	3	8	9c29d607-2c21-402b-9c50-7d0438439c71
+54	2	t	14000.00	3	3	9c29d607-2c21-402b-9c50-7d0438439c71
+38	3	t	4500.00	3	1	9c29d607-2c21-402b-9c50-7d0438439c71
 9	3	t	4500.00	\N	1	939ce4f6-98ae-4aa9-85a3-bf01480e3d61
 8	3	t	18000.00	\N	2	939ce4f6-98ae-4aa9-85a3-bf01480e3d61
-15	3	t	420000.00	\N	4	9c29d607-2c21-402b-9c50-7d0438439c71
-1	9	t	171000.00	\N	8	9c29d607-2c21-402b-9c50-7d0438439c71
-3	3	t	18000.00	\N	2	9c29d607-2c21-402b-9c50-7d0438439c71
-5	4	t	320000.00	\N	10	9c29d607-2c21-402b-9c50-7d0438439c71
 6	5	t	40000.00	\N	13	939ce4f6-98ae-4aa9-85a3-bf01480e3d61
+23	1	t	7000.00	1	3	9c29d607-2c21-402b-9c50-7d0438439c71
+24	1	t	6000.00	1	2	9c29d607-2c21-402b-9c50-7d0438439c71
+26	1	t	6000.00	2	2	9c29d607-2c21-402b-9c50-7d0438439c71
+27	1	t	1500.00	2	1	9c29d607-2c21-402b-9c50-7d0438439c71
+25	2	t	14000.00	2	3	9c29d607-2c21-402b-9c50-7d0438439c71
 \.
 
 
@@ -3065,7 +3129,7 @@ COPY public.orders_cart (id, count, status, total_price, order_id, product_id, s
 -- Name: orders_cart_id_seq; Type: SEQUENCE SET; Schema: public; Owner: zeroplus
 --
 
-SELECT pg_catalog.setval('public.orders_cart_id_seq', 15, true);
+SELECT pg_catalog.setval('public.orders_cart_id_seq', 54, true);
 
 
 --
@@ -3073,6 +3137,9 @@ SELECT pg_catalog.setval('public.orders_cart_id_seq', 15, true);
 --
 
 COPY public.orders_order (id, client_name, phone, shipping_address, total_price, created, state, order_unique_id, products, customer_id) FROM stdin;
+1	A'zam	+99899838947	Toshkent shahar	13000.00	2018-06-27 17:11:58.285498+05	0	b5ccf43e-69e3-4e6f-8d5f-0c647aeb33ec	\N	\N
+2	A'zam Mamatmurodov	+99899838947	Toshkent, Muqimiy ko'cha	21500.00	2018-06-27 17:24:58.525223+05	0	6637eb0e-2b07-48ea-8085-7b57f4e0735c	\N	\N
+3	A'zam	+99899838947	Tashkent shahar	72500.00	2018-06-28 21:12:30.462699+05	0	0398456b-cc68-43b5-b47c-69cdad936724	\N	\N
 \.
 
 
@@ -3080,7 +3147,7 @@ COPY public.orders_order (id, client_name, phone, shipping_address, total_price,
 -- Name: orders_order_id_seq; Type: SEQUENCE SET; Schema: public; Owner: zeroplus
 --
 
-SELECT pg_catalog.setval('public.orders_order_id_seq', 1, false);
+SELECT pg_catalog.setval('public.orders_order_id_seq', 3, true);
 
 
 --
@@ -3360,7 +3427,7 @@ SELECT pg_catalog.setval('public.products_review_id_seq', 1, false);
 --
 
 COPY public.products_sale (id, percent) FROM stdin;
-2	30
+2	50
 \.
 
 
@@ -3468,7 +3535,7 @@ SELECT pg_catalog.setval('public.users_partners_id_seq', 1, false);
 --
 
 COPY public.users_user (id, password, last_login, is_superuser, email, is_staff, username, phone, first_name, last_name, date_joined, is_active, image_id) FROM stdin;
-1	pbkdf2_sha256$36000$VzYhvGSKgqOM$4FuK8xirZumacbGeNPhEyQSmx+LcXqQ31Fn4QlVGLdo=	2018-06-26 13:54:02.053337+05	t	azam.mamatmurodov@gmail.com	t	admin		A'zam	Mamatmurodov	2018-06-23 02:52:58.430745+05	t	\N
+1	pbkdf2_sha256$36000$VzYhvGSKgqOM$4FuK8xirZumacbGeNPhEyQSmx+LcXqQ31Fn4QlVGLdo=	2018-06-28 20:41:27.319331+05	t	azam.mamatmurodov@gmail.com	t	admin		A'zam	Mamatmurodov	2018-06-23 02:52:58.430745+05	t	\N
 \.
 
 
@@ -4343,20 +4410,6 @@ CREATE INDEX main_banner_translation_language_code_18439eee_like ON public.main_
 --
 
 CREATE INDEX main_banner_translation_master_id_f62e61c4 ON public.main_banner_translation USING btree (master_id);
-
-
---
--- Name: main_banner_translation_slug_f62a4547; Type: INDEX; Schema: public; Owner: zeroplus
---
-
-CREATE INDEX main_banner_translation_slug_f62a4547 ON public.main_banner_translation USING btree (slug);
-
-
---
--- Name: main_banner_translation_slug_f62a4547_like; Type: INDEX; Schema: public; Owner: zeroplus
---
-
-CREATE INDEX main_banner_translation_slug_f62a4547_like ON public.main_banner_translation USING btree (slug varchar_pattern_ops);
 
 
 --

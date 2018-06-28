@@ -12,7 +12,8 @@ class HomeView(TemplateView):
         context = super(HomeView, self).get_context_data(**kwargs)
         context['categories'] = Category.objects.filter(parent__isnull=True).order_by('order')
         context['banners'] = Banner.objects.all().order_by('order')
-        context['top_products'] = Product.objects.filter(is_recommended=True)
+        context['recommended_products'] = Product.objects.filter(is_recommended=True).order_by("?")[:2]
+        context['products'] = Product.objects.exclude(is_recommended=True).order_by("?")[:4]
         context['sale_products'] = Product.objects.filter(is_sale=True)
         if Sale.objects.exists():
             context['sale_percent'] = Sale.objects.first()
