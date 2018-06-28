@@ -1,111 +1,118 @@
 {% extends 'base.html' %}
 {% load static thumbnail i18n humanize product_extras %}
 {% block title %}
-{{ site_name }} | {% trans 'Home page' %}
+    {{ site_name }} | {% trans 'Home page' %}
 {% endblock %}
 {% block content %}
-{{ header }}
-<div class="slider2">
-    <div class="newSlider2 owl-carousel" id="slider1">
-        {% for banner in banners %}
-            <div class="item">
-                <div class="topBlock" style="background-image: url('{{ banner.banner.file.url }}')">
-                    <div class="topBlock2">
-                        <div class="centerTitle">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-md-3"></div>
-                                    <div class="col-md-6">
-                                        <p class="title1">
-                                            {{ banner.name }}
-                                        </p>
-                                        <p class="subtitle">
-                                            {{ banner.body|safe }}
-                                        </p>
-                                        <a href="{{ banner.url }}" class="addToCart2 top">
-                                            {% trans 'Shop now' %}
-                                        </a>
+    {{ header }}
+    <div class="slider2">
+        <div class="newSlider2 owl-carousel" id="slider1">
+            {% for banner in banners %}
+                <div class="item">
+                    <div class="topBlock" style="background-image: url('{{ banner.banner.file.url }}')">
+                        <div class="topBlock2">
+                            <div class="centerTitle">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-6">
+                                            <p class="title1">
+                                                {{ banner.name }}
+                                            </p>
+                                            <p class="subtitle">
+                                                {{ banner.body|safe }}
+                                            </p>
+                                            <a href="{{ banner.url }}" class="addToCart2 top">
+                                                {% trans 'Shop now' %}
+                                            </a>
+                                        </div>
+                                        <div class="col-md-3"></div>
                                     </div>
-                                    <div class="col-md-3"></div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
-</div>
-<div class="topClothes">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="contentBlock">
-                    {% for recommended_product in recommended_products %}
-                        <div class="{% if forloop.first %}leftBlock{% else %}rightBlock{% endif %}">
-                            <img src="{% thumbnail recommended_product.get_default_image.file 570x322 crop %}" alt="{{ recommended_product.name }}">
-                            <div class="innerBlock">
-                                <div class="innerText">
-                                    <p>{{ recommended_product.name }}</p>
-                                    <a href="{{ recommended_product.get_absolute_url }}" class="addToCart2">{% trans 'Shop now' %}</a>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="goods">
-    <div class="container">
-        <div class="row">
-            {% for product in products %}
-                <div class="col-md-3 col-sm-6">
-                    <div class="block">
-                        <a href="{{ product.get_absolute_url }}">
-                            <img src="{% thumbnail product.get_default_image.file 261x244 crop %}" alt="" class="bImg">
-                            <p class="blockTxt">{{ product.name }}</p>
-                        </a>
-                        <p class="bText">{{ product.get_price }}</p>
-                        <button class="addToCart" data-image="{{ product.get_default_image.file.url }}" data-product="{{ product.id }}">{% trans 'Add to cart' %}</button>
                     </div>
                 </div>
             {% endfor %}
         </div>
     </div>
-</div>
-{% if sale_products.exists %}
-    <div class="saleBlock">
+    <div class="topClothes">
         <div class="container">
-            <p class="saleTitle">-{{ sale_percent.percent }}% OFF Sale</p>
-            <div class="slider1">
-                <div class="newSlider owl-carousel" id="slider1">
-                    {% for sale_product in sale_products %}
-                        <div class="item">
-                            <div class="block2">
-                                <a href="{{ sale_product.get_absolute_url }}">
-                                    <img src="{{ sale_product.get_default_image.file.url }}" alt="{{ sale_product.name }}">
-                                    <p class="blockTxt">
-                                        {{ sale_product.name }}
-                                    </p>
-                                </a>
-                                <p class="bText">
-                                    <span>
-                                        <del> {{ sale_product.price|floatformat|intcomma }} {% trans 'soum' %}</del>
-                                    </span>
-                                    {{ sale_product.price|get_sale_price|floatformat|intcomma }} {% trans 'soum' %}
-                                </p>
-                                <button class="addToCart  cart_add" data-image="{{ sale_product.get_default_image.file.url }}" data-product="{{ sale_product.id }}">
-                                    {% trans 'Add to cart' %}
-                                </button>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="contentBlock">
+                        {% for recommended_product in recommended_products %}
+                            <div class="{% if forloop.first %}leftBlock{% else %}rightBlock{% endif %}">
+                                <img src="{% thumbnail recommended_product.get_default_image.file 570x322 crop %}"
+                                     alt="{{ recommended_product.name }}">
+                                <div class="innerBlock">
+                                    <div class="innerText">
+                                        <p>{{ recommended_product.name }}</p>
+                                        <a href="{{ recommended_product.get_absolute_url }}"
+                                           class="addToCart2">{% trans 'Shop now' %}</a>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    {% endfor %}
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-{% endif %}
-{{ footer }}
+    <div class="goods">
+        <div class="container">
+            <div class="row">
+                {% for product in products %}
+                    <div class="col-md-3 col-sm-6">
+                        <div class="block">
+                            <a href="{{ product.get_absolute_url }}">
+                                <img src="{% thumbnail product.get_default_image.file 261x244 crop %}" alt=""
+                                     class="bImg">
+                                <p class="blockTxt">{{ product.name }}</p>
+                            </a>
+                            <p class="bText">{{ product.get_price }}</p>
+                            <button class="addToCart" data-image="{{ product.get_default_image.file.url }}"
+                                    data-product="{{ product.id }}">{% trans 'Add to cart' %}</button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% if sale_products.exists %}
+        <div class="saleBlock">
+            <div class="container">
+                <p class="saleTitle">-{{ sale_percent.percent }}% OFF Sale</p>
+                <div class="slider1">
+                    <div class="newSlider owl-carousel" id="slider1">
+                        {% for sale_product in sale_products %}
+                            <div class="item">
+                                <div class="block2">
+                                    <a href="{{ sale_product.get_absolute_url }}">
+                                        <img src="{{ sale_product.get_default_image.file.url }}"
+                                             alt="{{ sale_product.name }}">
+                                        <p class="blockTxt">
+                                            {{ sale_product.name }}
+                                        </p>
+                                    </a>
+                                    <p class="bText">
+                                    <span>
+                                        <del> {{ sale_product.price|floatformat|intcomma }} {% trans 'soum' %}</del>
+                                    </span>
+                                        {{ sale_product.price|get_sale_price|floatformat|intcomma }} {% trans 'soum' %}
+                                    </p>
+                                    <button class="addToCart  cart_add"
+                                            data-image="{{ sale_product.get_default_image.file.url }}"
+                                            data-product="{{ sale_product.id }}">
+                                        {% trans 'Add to cart' %}
+                                    </button>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {{ footer }}
 {% endblock %}
