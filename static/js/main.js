@@ -3,7 +3,7 @@ $(document).ready(function() {
         items:1,
         dots:false,
         nav:true,
-        autoplay:true,
+        autoplay:false,
         autoplayspeed:1000,
         loop:true,
         autoplaytimeout: 1000,
@@ -44,11 +44,24 @@ $(document).ready(function() {
 
 
 $('.mobileMenu').click(function(){
-    $('.topMenu').toggleClass('is-active');
-    $('body').toggleClass('fixed');
+     var  mobilMenu = $('.topMenu').toggleClass('is-active');
+    console.log(mobilMenu);
 });
+
+
 $('.closeMenu').click(function(){
     $('.topMenu').removeClass('is-active');
-    $('body').removeClass('fixed');
+
 });
+// $('.lang').click(function(){
+//     var $lang = $('.lang li').toggleClass('active');
+
+// });
+
+$('.lang li').click(function(){
+
+    $('.lang li').toggleClass('active');
+    $(this).addClass('active');
+});
+
 });

@@ -1,5 +1,6 @@
 {% load static i18n %}
 {% get_current_language as LANG_CODE %}
+{% get_available_languages as LANGUAGES %}
 <header class="header">
     <div class="container">
         <div class="row">
@@ -52,6 +53,15 @@
                 </ul>
                 <div class="mobileMenu">
                     <span class="line"></span>
+                </div>
+                <div class="block-lang">
+                    <ul class="lang">
+                        {% for LANGUAGE in LANGUAGES %}
+                            <li class="{% if LANG_CODE == LANGUAGE.0 %}active{% endif %}">
+                                <a {% if LANG_CODE != LANGUAGE.0 %}href="/{{ LANGUAGE.0 }}" {% endif %} class="lang-ru">{{ LANGUAGE.1 }} </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </div>
             </div>
             <div class="col-md-4 col-sm-4">

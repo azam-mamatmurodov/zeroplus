@@ -1,5 +1,7 @@
 from django.views.generic import TemplateView, DetailView, CreateView
 from django.shortcuts import reverse
+from django.contrib.messages.views import messages
+from django.utils.translation import ugettext as _
 
 from main.models import Static, Banner, Contact
 from products.models import Category, Product, Sale
@@ -35,3 +37,8 @@ class ContactView(CreateView):
 
     def get_success_url(self):
         return reverse('main:contact')
+
+    def form_valid(self, form):
+        form.save(commit=False)
+        messages.add_message(self.request, messages.INFO, _('Thank you ! Your message has been sent.'))
+        return super().form_valid(form)

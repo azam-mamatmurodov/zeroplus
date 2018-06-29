@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-25 15:48+0500\n"
+"POT-Creation-Date: 2018-06-29 20:32+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,22 +18,29 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: main/models.py:15 main/models.py:42 main/models.py:55 main/models.py:68
-#: products/models.py:22 products/models.py:83
+#: main/models.py:15 main/models.py:42 main/models.py:56 main/models.py:69
+#: products/models.py:24 products/models.py:85
 msgid "Name"
 msgstr ""
 
-#: main/models.py:16 main/models.py:43 main/models.py:56 main/models.py:69
-#: products/models.py:23
+#: main/models.py:16 main/models.py:57 main/models.py:70 products/models.py:25
 msgid "Slug"
 msgstr ""
 
-#: main/models.py:18 main/models.py:46
+#: main/models.py:18 main/models.py:47
 msgid "Order"
 msgstr ""
 
-#: main/models.py:77 main/models.py:78
+#: main/models.py:43
+msgid "Url"
+msgstr ""
+
+#: main/models.py:78 main/models.py:79
 msgid "News"
+msgstr ""
+
+#: main/views.py:43
+msgid "Thank you ! Your message has been sent."
 msgstr ""
 
 #: orders/models.py:12
@@ -80,70 +87,84 @@ msgstr ""
 msgid "Cart item"
 msgstr ""
 
-#: orders/models.py:61
+#: orders/models.py:61 templates/pages/orders/cart.html:12
 msgid "Cart items"
 msgstr ""
 
-#: products/models.py:35 products/models.py:108
+#: products/admin.py:62
+msgid "Percent"
+msgstr ""
+
+#: products/models.py:37 products/models.py:110
 #: templates/pages/product/product_list.html:20
 msgid "Category"
 msgstr ""
 
-#: products/models.py:36
+#: products/models.py:38
 msgid "Categories"
 msgstr ""
 
-#: products/models.py:84
+#: products/models.py:86
 msgid "Logo"
 msgstr ""
 
-#: products/models.py:88 products/models.py:109
+#: products/models.py:90 products/models.py:111
 msgid "Brand"
 msgstr ""
 
-#: products/models.py:89
+#: products/models.py:91
 msgid "Brands"
 msgstr ""
 
-#: products/models.py:96
+#: products/models.py:98
 msgid "Image"
 msgstr ""
 
-#: products/models.py:97 products/models.py:150
+#: products/models.py:99 products/models.py:161
+#: templates/pages/orders/cart.html:16
 msgid "Product"
 msgstr ""
 
-#: products/models.py:107
+#: products/models.py:109
 #, fuzzy
 #| msgid "First name"
 msgid "Product name"
 msgstr "Ism"
 
-#: products/models.py:110
+#: products/models.py:112
 msgid "Description"
 msgstr ""
 
-#: products/models.py:111
+#: products/models.py:113
 msgid "Product Owner"
 msgstr ""
 
-#: products/models.py:113 templates/pages/product/product_detail.html:66
+#: products/models.py:115 templates/pages/product/product_detail.html:76
 msgid "Available in stock"
 msgstr ""
 
-#: products/models.py:115 templates/pages/product/product_detail.html:42
+#: products/models.py:117 templates/pages/orders/cart.html:19
+#: templates/pages/product/product_detail.html:41
 msgid "Price"
 msgstr ""
 
-#: products/models.py:116
+#: products/models.py:119 templates/pages/orders/cart.html:18
 msgid "Quantity"
 msgstr ""
 
-#: products/models.py:135
+#: products/models.py:138 rest_app/views.py:211 templates/pages/main.html:73
+#: templates/pages/main.html:100 templates/pages/main.html:102
+#: templates/pages/orders/cart.html:73 templates/pages/orders/cart.html:79
+#: templates/pages/orders/cart.html:92 templates/pages/orders/checkout.html:18
+#: templates/pages/orders/checkout.html:23
+#: templates/pages/product/product_detail.html:48
+#: templates/pages/product/product_list.html:100
+#: templates/pages/product/product_list.html:102
+#: templates/restapp/cart_list.html:20 templates/restapp/cart_list.html:33
 msgid "soum"
 msgstr ""
 
-#: products/models.py:151
+#: products/models.py:162
 msgid "Products"
 msgstr ""
 
@@ -163,37 +184,51 @@ msgstr ""
 msgid "Old products first"
 msgstr ""
 
-#: project/context.py:12 templates/pages/main.html:4
-#: templates/parts/header.html:16
+#: project/context.py:13 templates/pages/main.html:4
+#: templates/parts/header.html:18
 #, fuzzy
 #| msgid "Home"
 msgid "Home page"
 msgstr "Bosh sahifa"
 
-#: project/context.py:19 project/context.py:21
+#: project/context.py:20 project/context.py:22
 msgid "Account Settings"
 msgstr ""
 
-#: project/context.py:25 templates/pages/contact.html:4
+#: project/context.py:26 templates/pages/contact.html:4
 msgid "Contact us"
 msgstr ""
 
-#: project/context.py:31 project/context.py:39 project/context.py:88
+#: project/context.py:32 project/context.py:40 project/context.py:106
 #: templates/pages/product/product_list.html:9
 msgid "All products"
 msgstr ""
 
-#: project/context.py:64 project/context.py:71
+#: project/context.py:65 project/context.py:71 project/context.py:83
+#: templates/restapp/cart_list.html:37
 msgid "Cart"
 msgstr ""
 
-#: project/context.py:74
+#: project/context.py:76 templates/pages/orders/cart.html:94
+#: templates/pages/orders/checkout.html:3
+#: templates/pages/orders/order_detail.html:3
+#: templates/pages/orders/thank_you.html:3 templates/restapp/cart_list.html:40
+msgid "Checkout"
+msgstr ""
+
+#: project/context.py:86
 #, fuzzy
 #| msgid "Personal info"
 msgid "Order info"
 msgstr "Shaxsiy ma'lumot"
 
-#: project/context.py:109
+#: project/context.py:92
+#, fuzzy
+#| msgid "Personal info"
+msgid "Order finished"
+msgstr "Shaxsiy ma'lumot"
+
+#: project/context.py:127 templates/parts/header.html:70
 msgid "Search"
 msgstr ""
 
@@ -205,28 +240,88 @@ msgstr ""
 msgid "Litr"
 msgstr ""
 
-#: rest_app/views.py:70
+#: rest_app/views.py:78
 msgid "Cart successfully updated"
 msgstr ""
 
-#: rest_app/views.py:72
+#: rest_app/views.py:80
 msgid "Successful added"
 msgstr ""
 
-#: templates/pages/main.html:98 templates/pages/product/product_detail.html:79
+#: rest_app/views.py:116 templates/base.html:135
+msgid "Successful removed"
+msgstr ""
+
+#: rest_app/views.py:141
+msgid "Successful saved"
+msgstr ""
+
+#: templates/pages/contact.html:23 users/models.py:56
+msgid "First name"
+msgstr "Ism"
+
+#: templates/pages/contact.html:27 users/models.py:57
+msgid "Last name"
+msgstr "Familiya"
+
+#: templates/pages/contact.html:33
+msgid "E-mail"
+msgstr ""
+
+#: templates/pages/contact.html:37
+msgid "Subject"
+msgstr ""
+
+#: templates/pages/contact.html:43
+msgid "Your message"
+msgstr ""
+
+#: templates/pages/contact.html:47 templates/pages/orders/checkout.html:64
+msgid "Submit"
+msgstr ""
+
+#: templates/pages/main.html:26 templates/pages/main.html:52
+msgid "Shop now"
+msgstr ""
+
+#: templates/pages/main.html:75 templates/pages/main.html:107
+#: templates/pages/product/product_detail.html:89
 #: templates/pages/product/product_list.html:68
+#: templates/pages/product/product_list.html:105
 msgid "Add to cart"
 msgstr ""
 
-#: templates/pages/product/product_detail.html:47
-msgid "Colors"
+#: templates/pages/orders/cart.html:17
+msgid "Title"
+msgstr ""
+
+#: templates/pages/orders/cart.html:20 templates/pages/orders/cart.html:90
+msgid "Total price"
+msgstr ""
+
+#: templates/pages/orders/checkout.html:13
+#, fuzzy
+#| msgid "First name"
+msgid "Product list"
+msgstr "Ism"
+
+#: templates/pages/orders/checkout.html:23 templates/restapp/cart_list.html:32
+msgid "Total soum"
+msgstr ""
+
+#: templates/pages/orders/thank_you.html:11
+msgid "Thanks you for buying from our website ! We'll soon contact you !"
 msgstr ""
 
 #: templates/pages/product/product_detail.html:57
-msgid "Sizes"
+msgid "Colors"
 msgstr ""
 
 #: templates/pages/product/product_detail.html:67
+msgid "Sizes"
+msgstr ""
+
+#: templates/pages/product/product_detail.html:77
 msgid "pcs"
 msgstr ""
 
@@ -235,7 +330,31 @@ msgid "See all"
 msgstr ""
 
 #: templates/pages/product/product_list.html:74
-msgid "Sorry by your request not found"
+msgid "Sorry by your request products not found"
+msgstr ""
+
+#: templates/pages/search.html:28
+msgid "more"
+msgstr ""
+
+#: templates/parts/footer.html:26
+msgid "Namangan city branch"
+msgstr ""
+
+#: templates/parts/footer.html:31
+msgid "Street Bog'ishamol, 12."
+msgstr ""
+
+#: templates/parts/footer.html:44
+msgid "Site developed by"
+msgstr ""
+
+#: templates/parts/footer.html:56
+msgid "Copyright"
+msgstr ""
+
+#: templates/parts/footer.html:56
+msgid "All rights reserved"
 msgstr ""
 
 #: users/admin.py:18
@@ -263,20 +382,12 @@ msgid "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
 msgstr ""
 
 #: users/models.py:52
-msgid "A user with that username already exists."
+msgid "User with that username already exists."
 msgstr ""
 
 #: users/models.py:55
 msgid "Phone number or Username"
 msgstr ""
-
-#: users/models.py:56
-msgid "First name"
-msgstr "Ism"
-
-#: users/models.py:57
-msgid "Last name"
-msgstr "Familiya"
 
 #: users/models.py:58
 msgid "Date joined"

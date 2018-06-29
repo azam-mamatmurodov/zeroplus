@@ -89,8 +89,9 @@ def get_breadcrumbs(request, *args, **kwargs):
             'path': reverse(view_name, args=[kwargs.get('order_unique_id')]),
         })
     elif view_name == 'orders:thank_you':
+        page_title = _('Order finished')
         paths.append({
-            'title': _('Thank you'),
+            'title': page_title,
             'path': reverse(view_name),
         })
     elif view_name == 'products:product_detail':
