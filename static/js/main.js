@@ -3,7 +3,7 @@ $(document).ready(function() {
         items:1,
         dots:false,
         nav:true,
-        autoplay:false,
+        autoplay:true,
         autoplayspeed:1000,
         loop:true,
         autoplaytimeout: 1000,
@@ -45,7 +45,6 @@ $(document).ready(function() {
 
 $('.mobileMenu').click(function(){
      var  mobilMenu = $('.topMenu').toggleClass('is-active');
-    console.log(mobilMenu);
 });
 
 
