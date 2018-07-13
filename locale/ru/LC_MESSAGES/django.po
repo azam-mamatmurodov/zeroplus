@@ -363,7 +363,7 @@ msgstr "Пароли не совпадают"
 
 #: users/models.py:46
 msgid "username"
-msgstr ""
+msgstr "имя пользователя"
 
 #: users/models.py:49
 msgid "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
@@ -383,11 +383,11 @@ msgstr "Дата присоединения"
 
 #: users/models.py:59
 msgid "Active"
-msgstr ""
+msgstr "активный"
 
 #: users/models.py:60
 msgid "Avatar"
-msgstr ""
+msgstr "Аватар"
 
 #: users/models.py:68
 msgid "User"

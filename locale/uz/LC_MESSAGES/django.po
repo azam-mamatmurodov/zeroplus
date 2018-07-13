@@ -64,24 +64,22 @@ msgid "Delivered"
 msgstr ""
 
 #: orders/models.py:19
-#, fuzzy
-#| msgid "Email address"
+
 msgid "Client name"
 msgstr "Email manzil"
 
 #: orders/models.py:20
 msgid "Phone number"
-msgstr ""
+msgstr "Telefon raqami"
 
 #: orders/models.py:21
-#, fuzzy
-#| msgid "Email address"
+
 msgid "Shipping address"
-msgstr "Email manzil"
+msgstr "Yetkazish manzili"
 
 #: orders/models.py:25
 msgid "Order Id"
-msgstr ""
+msgstr "Buyurtma Id"
 
 #: orders/models.py:60
 msgid "Cart item"
@@ -93,16 +91,16 @@ msgstr ""
 
 #: products/admin.py:62
 msgid "Percent"
-msgstr ""
+msgstr "Foiz"
 
 #: products/models.py:37 products/models.py:110
 #: templates/pages/product/product_list.html:20
 msgid "Category"
-msgstr ""
+msgstr "Kategoriya"
 
 #: products/models.py:38
 msgid "Categories"
-msgstr ""
+msgstr "Kategoriyalar"
 
 #: products/models.py:86
 msgid "Logo"
@@ -123,21 +121,20 @@ msgstr ""
 #: products/models.py:99 products/models.py:161
 #: templates/pages/orders/cart.html:16
 msgid "Product"
-msgstr ""
+msgstr "Mahsulot"
 
 #: products/models.py:109
-#, fuzzy
-#| msgid "First name"
+
 msgid "Product name"
-msgstr "Ism"
+msgstr "Mahsulot nomi"
 
 #: products/models.py:112
 msgid "Description"
-msgstr ""
+msgstr "Sharh"
 
 #: products/models.py:113
 msgid "Product Owner"
-msgstr ""
+msgstr "Mahsulot egasi"
 
 #: products/models.py:115 templates/pages/product/product_detail.html:76
 msgid "Available in stock"
@@ -146,11 +143,11 @@ msgstr ""
 #: products/models.py:117 templates/pages/orders/cart.html:19
 #: templates/pages/product/product_detail.html:41
 msgid "Price"
-msgstr ""
+msgstr "Narx"
 
 #: products/models.py:119 templates/pages/orders/cart.html:18
 msgid "Quantity"
-msgstr ""
+msgstr "Miqdor"
 
 #: products/models.py:138 rest_app/views.py:211 templates/pages/main.html:73
 #: templates/pages/main.html:100 templates/pages/main.html:102
@@ -162,52 +159,51 @@ msgstr ""
 #: templates/pages/product/product_list.html:102
 #: templates/restapp/cart_list.html:20 templates/restapp/cart_list.html:33
 msgid "soum"
-msgstr ""
+msgstr "So'm"
 
 #: products/models.py:162
 msgid "Products"
-msgstr ""
+msgstr "Mahsulotlar"
 
 #: products/views.py:33
 msgid "Title a-z"
-msgstr ""
+msgstr "Sarlavha a-z"
 
 #: products/views.py:34
 msgid "Title z-a"
-msgstr ""
+msgstr "Sarlavha z-a"
 
 #: products/views.py:35
 msgid "New products first"
-msgstr ""
+msgstr "Yangi mahsulotlar birinchi"
 
 #: products/views.py:36
 msgid "Old products first"
-msgstr ""
+msgstr "Eski mahsulotlar, birinchi"
 
 #: project/context.py:13 templates/pages/main.html:4
 #: templates/parts/header.html:18
-#, fuzzy
-#| msgid "Home"
+
 msgid "Home page"
 msgstr "Bosh sahifa"
 
 #: project/context.py:20 project/context.py:22
 msgid "Account Settings"
-msgstr ""
+msgstr "Hisobni sozlash"
 
 #: project/context.py:26 templates/pages/contact.html:4
 msgid "Contact us"
-msgstr ""
+msgstr "Biz bilan bog'lanish"
 
 #: project/context.py:32 project/context.py:40 project/context.py:106
 #: templates/pages/product/product_list.html:9
 msgid "All products"
-msgstr ""
+msgstr "Barcha mahsulotlar"
 
 #: project/context.py:65 project/context.py:71 project/context.py:83
 #: templates/restapp/cart_list.html:37
 msgid "Cart"
-msgstr ""
+msgstr "Savat"
 
 #: project/context.py:76 templates/pages/orders/cart.html:94
 #: templates/pages/orders/checkout.html:3
@@ -217,20 +213,18 @@ msgid "Checkout"
 msgstr ""
 
 #: project/context.py:86
-#, fuzzy
-#| msgid "Personal info"
+
 msgid "Order info"
 msgstr "Shaxsiy ma'lumot"
 
 #: project/context.py:92
-#, fuzzy
-#| msgid "Personal info"
+
 msgid "Order finished"
 msgstr "Shaxsiy ma'lumot"
 
 #: project/context.py:127 templates/parts/header.html:70
 msgid "Search"
-msgstr ""
+msgstr "Qidirish"
 
 #: project/settings.py:214
 msgid "KG"
@@ -242,7 +236,7 @@ msgstr ""
 
 #: rest_app/views.py:78
 msgid "Cart successfully updated"
-msgstr ""
+msgstr "Savatcha muvaffaqiyatli yangilandi"
 
 #: rest_app/views.py:80
 msgid "Successful added"
@@ -250,11 +244,11 @@ msgstr ""
 
 #: rest_app/views.py:116 templates/base.html:135
 msgid "Successful removed"
-msgstr ""
+msgstr "Muvaffaqiyatli qo'shildi"
 
 #: rest_app/views.py:141
 msgid "Successful saved"
-msgstr ""
+msgstr "Muvaffaqiyatli saqlandi"
 
 #: templates/pages/contact.html:23 users/models.py:56
 msgid "First name"
@@ -270,15 +264,15 @@ msgstr ""
 
 #: templates/pages/contact.html:37
 msgid "Subject"
-msgstr ""
+msgstr "Mavzu"
 
 #: templates/pages/contact.html:43
 msgid "Your message"
-msgstr ""
+msgstr "Sizning xabaringiz"
 
 #: templates/pages/contact.html:47 templates/pages/orders/checkout.html:64
 msgid "Submit"
-msgstr ""
+msgstr "Jo'natish"
 
 #: templates/pages/main.html:26 templates/pages/main.html:52
 msgid "Shop now"
@@ -289,37 +283,36 @@ msgstr ""
 #: templates/pages/product/product_list.html:68
 #: templates/pages/product/product_list.html:105
 msgid "Add to cart"
-msgstr ""
+msgstr "Savatchaga qo'shish"
 
 #: templates/pages/orders/cart.html:17
 msgid "Title"
-msgstr ""
+msgstr "Sarlavha"
 
 #: templates/pages/orders/cart.html:20 templates/pages/orders/cart.html:90
 msgid "Total price"
-msgstr ""
+msgstr "Umumiy narxi"
 
 #: templates/pages/orders/checkout.html:13
-#, fuzzy
-#| msgid "First name"
+
 msgid "Product list"
-msgstr "Ism"
+msgstr "Mahsulot ro'yxati"
 
 #: templates/pages/orders/checkout.html:23 templates/restapp/cart_list.html:32
 msgid "Total soum"
-msgstr ""
+msgstr "Umumiy summasi"
 
 #: templates/pages/orders/thank_you.html:11
 msgid "Thanks you for buying from our website ! We'll soon contact you !"
-msgstr ""
+msgstr "Bizning veb-saytidan xaridingiz uchun rahmat ! Tez orada siz bilan bog'lanamiz!"
 
 #: templates/pages/product/product_detail.html:57
 msgid "Colors"
-msgstr ""
+msgstr "Ranglar"
 
 #: templates/pages/product/product_detail.html:67
 msgid "Sizes"
-msgstr ""
+msgstr "Hajmi"
 
 #: templates/pages/product/product_detail.html:77
 msgid "pcs"
@@ -327,27 +320,27 @@ msgstr ""
 
 #: templates/pages/product/product_list.html:36
 msgid "See all"
-msgstr ""
+msgstr "Barchasini ko'rish"
 
 #: templates/pages/product/product_list.html:74
 msgid "Sorry by your request products not found"
-msgstr ""
+msgstr "Kechirasiz, siz qidirayotgan mahsulot topilmadi"
 
 #: templates/pages/search.html:28
 msgid "more"
-msgstr ""
+msgstr "Ko'proq"
 
 #: templates/parts/footer.html:26
 msgid "Namangan city branch"
-msgstr ""
+msgstr "Namangan shahri filiali"
 
 #: templates/parts/footer.html:31
-msgid "Street Bog'ishamol, 12."
-msgstr ""
+msgid "Street Bogishamol, 12."
+msgstr "Bog'ishamol ko'chasi, 12"
 
 #: templates/parts/footer.html:44
 msgid "Site developed by"
-msgstr ""
+msgstr "Sayt ishlab chiqildi"
 
 #: templates/parts/footer.html:56
 msgid "Copyright"
@@ -355,7 +348,7 @@ msgstr ""
 
 #: templates/parts/footer.html:56
 msgid "All rights reserved"
-msgstr ""
+msgstr "Barcha xizmatlar himoyalangan"
 
 #: users/admin.py:18
 msgid "Personal info"
@@ -371,11 +364,11 @@ msgstr "Muhim sanalar"
 
 #: users/forms.py:29
 msgid "Passwords not match"
-msgstr ""
+msgstr "Parollar mos emas"
 
 #: users/models.py:46
 msgid "username"
-msgstr ""
+msgstr "Foydalanuvchi nomi"
 
 #: users/models.py:49
 msgid "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
@@ -383,11 +376,11 @@ msgstr ""
 
 #: users/models.py:52
 msgid "User with that username already exists."
-msgstr ""
+msgstr "Bu login bilan foydalanuvchi allaqachon mavjud."
 
 #: users/models.py:55
 msgid "Phone number or Username"
-msgstr ""
+msgstr "Telefon raqami yoki Foydalanuvchi nomi"
 
 #: users/models.py:58
 msgid "Date joined"
@@ -414,18 +407,17 @@ msgid "Customer"
 msgstr ""
 
 #: users/models.py:80
-#, fuzzy
-#| msgid "Email address"
+
 msgid "Customer address"
 msgstr "Email manzil"
 
 #: users/models.py:95
 msgid "Partner"
-msgstr ""
+msgstr "Hamkor"
 
 #: users/models.py:96
 msgid "Partners"
-msgstr ""
+msgstr "Hamkorlar"
 
 #, fuzzy
 #~| msgid "Last name"
