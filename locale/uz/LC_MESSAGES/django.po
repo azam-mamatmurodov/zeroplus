@@ -138,7 +138,7 @@ msgstr "Mahsulot egasi"
 
 #: products/models.py:115 templates/pages/product/product_detail.html:76
 msgid "Available in stock"
-msgstr ""
+msgstr "Omborda mavjud"
 
 #: products/models.py:117 templates/pages/orders/cart.html:19
 #: templates/pages/product/product_detail.html:41
@@ -236,11 +236,11 @@ msgstr ""
 
 #: rest_app/views.py:78
 msgid "Cart successfully updated"
-msgstr "Savatcha muvaffaqiyatli yangilandi"
+msgstr "Savat muvaffaqiyatli yangilandi"
 
 #: rest_app/views.py:80
 msgid "Successful added"
-msgstr ""
+msgstr "Muvaffaqiyatli qo'shildi"
 
 #: rest_app/views.py:116 templates/base.html:135
 msgid "Successful removed"
@@ -260,7 +260,7 @@ msgstr "Familiya"
 
 #: templates/pages/contact.html:33
 msgid "E-mail"
-msgstr ""
+msgstr "Elektron manzil"
 
 #: templates/pages/contact.html:37
 msgid "Subject"
@@ -283,7 +283,7 @@ msgstr ""
 #: templates/pages/product/product_list.html:68
 #: templates/pages/product/product_list.html:105
 msgid "Add to cart"
-msgstr "Savatchaga qo'shish"
+msgstr "Savatga qo'shish"
 
 #: templates/pages/orders/cart.html:17
 msgid "Title"
