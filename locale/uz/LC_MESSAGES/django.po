@@ -21,7 +21,7 @@ msgstr ""
 #: main/models.py:15 main/models.py:42 main/models.py:56 main/models.py:69
 #: products/models.py:24 products/models.py:85
 msgid "Name"
-msgstr ""
+msgstr "Ism"
 
 #: main/models.py:16 main/models.py:57 main/models.py:70 products/models.py:25
 msgid "Slug"
@@ -29,7 +29,7 @@ msgstr ""
 
 #: main/models.py:18 main/models.py:47
 msgid "Order"
-msgstr ""
+msgstr "Buyurtma"
 
 #: main/models.py:43
 msgid "Url"
@@ -37,31 +37,31 @@ msgstr ""
 
 #: main/models.py:78 main/models.py:79
 msgid "News"
-msgstr ""
+msgstr "Yangiliklar"
 
 #: main/views.py:43
 msgid "Thank you ! Your message has been sent."
-msgstr ""
+msgstr "Rahmat ! Xabaringiz jo'natildi."
 
 #: orders/models.py:12
 msgid "Available"
-msgstr ""
+msgstr "Mavjud"
 
 #: orders/models.py:13
 msgid "Awaiting Payment"
-msgstr ""
+msgstr "To'lovni kutish"
 
 #: orders/models.py:14
 msgid "Payment completed"
-msgstr ""
+msgstr "To'lov tugadi"
 
 #: orders/models.py:15
 msgid "Cancelled"
-msgstr ""
+msgstr "Bekor qilindi"
 
 #: orders/models.py:16
 msgid "Delivered"
-msgstr ""
+msgstr "Yetkazildi"
 
 #: orders/models.py:19
 
@@ -83,11 +83,11 @@ msgstr "Buyurtma Id"
 
 #: orders/models.py:60
 msgid "Cart item"
-msgstr ""
+msgstr "Savat mahsulotlari"
 
 #: orders/models.py:61 templates/pages/orders/cart.html:12
 msgid "Cart items"
-msgstr ""
+msgstr "Savat elementlari"
 
 #: products/admin.py:62
 msgid "Percent"
@@ -116,7 +116,7 @@ msgstr ""
 
 #: products/models.py:98
 msgid "Image"
-msgstr ""
+msgstr "Rasm"
 
 #: products/models.py:99 products/models.py:161
 #: templates/pages/orders/cart.html:16
@@ -210,7 +210,7 @@ msgstr "Savat"
 #: templates/pages/orders/order_detail.html:3
 #: templates/pages/orders/thank_you.html:3 templates/restapp/cart_list.html:40
 msgid "Checkout"
-msgstr ""
+msgstr "Tekshirib ko'rmoq"
 
 #: project/context.py:86
 
@@ -276,7 +276,7 @@ msgstr "Jo'natish"
 
 #: templates/pages/main.html:26 templates/pages/main.html:52
 msgid "Shop now"
-msgstr ""
+msgstr "Endi xarid qiling"
 
 #: templates/pages/main.html:75 templates/pages/main.html:107
 #: templates/pages/product/product_detail.html:89
@@ -404,7 +404,7 @@ msgstr "Foydalanuvchilar"
 
 #: users/models.py:79
 msgid "Customer"
-msgstr ""
+msgstr "Xaridor"
 
 #: users/models.py:80
 
