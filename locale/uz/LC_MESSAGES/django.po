@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-29 20:32+0500\n"
+"POT-Creation-Date: 2018-07-26 15:40+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -64,7 +64,6 @@ msgid "Delivered"
 msgstr "Yetkazildi"
 
 #: orders/models.py:19
-
 msgid "Client name"
 msgstr "Email manzil"
 
@@ -73,7 +72,6 @@ msgid "Phone number"
 msgstr "Telefon raqami"
 
 #: orders/models.py:21
-
 msgid "Shipping address"
 msgstr "Yetkazish manzili"
 
@@ -124,7 +122,6 @@ msgid "Product"
 msgstr "Mahsulot"
 
 #: products/models.py:109
-
 msgid "Product name"
 msgstr "Mahsulot nomi"
 
@@ -183,7 +180,6 @@ msgstr "Eski mahsulotlar, birinchi"
 
 #: project/context.py:13 templates/pages/main.html:4
 #: templates/parts/header.html:18
-
 msgid "Home page"
 msgstr "Bosh sahifa"
 
@@ -213,12 +209,10 @@ msgid "Checkout"
 msgstr "Tekshirib ko'rmoq"
 
 #: project/context.py:86
-
 msgid "Order info"
 msgstr "Shaxsiy ma'lumot"
 
 #: project/context.py:92
-
 msgid "Order finished"
 msgstr "Shaxsiy ma'lumot"
 
@@ -294,7 +288,6 @@ msgid "Total price"
 msgstr "Umumiy narxi"
 
 #: templates/pages/orders/checkout.html:13
-
 msgid "Product list"
 msgstr "Mahsulot ro'yxati"
 
@@ -304,7 +297,9 @@ msgstr "Umumiy summasi"
 
 #: templates/pages/orders/thank_you.html:11
 msgid "Thanks you for buying from our website ! We'll soon contact you !"
-msgstr "Bizning veb-saytidan xaridingiz uchun rahmat ! Tez orada siz bilan bog'lanamiz!"
+msgstr ""
+"Bizning veb-saytidan xaridingiz uchun rahmat ! Tez orada siz bilan "
+"bog'lanamiz!"
 
 #: templates/pages/product/product_detail.html:57
 msgid "Colors"
@@ -335,18 +330,26 @@ msgid "Namangan city branch"
 msgstr "Namangan shahri filiali"
 
 #: templates/parts/footer.html:31
-msgid "Street Bogishamol, 12."
-msgstr "Bog'ishamol ko'chasi, 12"
+msgid ""
+"\n"
+"\t\t\t\t\t\t\t\t\t\tStreet Bog'ishamol, 12.\n"
+"\t\t\t\t\t\t\t\t\t\tAlmaota shahri. Ojet bozori, 1 rayd 26-27 dukon.\n"
+"\t\t\t\t\t\t\t\t\t"
+msgstr "Almaota shahri. Ojet bozori, 1 rayd 26-27 dukon."
 
-#: templates/parts/footer.html:44
+#: templates/parts/footer.html:42
+msgid "Toshkent shahri"
+msgstr ""
+
+#: templates/parts/footer.html:52
 msgid "Site developed by"
 msgstr "Sayt ishlab chiqildi"
 
-#: templates/parts/footer.html:56
+#: templates/parts/footer.html:64
 msgid "Copyright"
 msgstr ""
 
-#: templates/parts/footer.html:56
+#: templates/parts/footer.html:64
 msgid "All rights reserved"
 msgstr "Barcha xizmatlar himoyalangan"
 
@@ -407,7 +410,6 @@ msgid "Customer"
 msgstr "Xaridor"
 
 #: users/models.py:80
-
 msgid "Customer address"
 msgstr "Email manzil"
 
@@ -418,6 +420,9 @@ msgstr "Hamkor"
 #: users/models.py:96
 msgid "Partners"
 msgstr "Hamkorlar"
+
+#~ msgid "Street Bogishamol, 12."
+#~ msgstr "Bog'ishamol ko'chasi, 12"
 
 #, fuzzy
 #~| msgid "Last name"

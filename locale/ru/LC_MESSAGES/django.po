@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-29 20:32+0500\n"
+"POT-Creation-Date: 2018-07-26 15:40+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -330,18 +330,26 @@ msgid "Namangan city branch"
 msgstr "Наманганский городской филиал"
 
 #: templates/parts/footer.html:31
-msgid "Street Bog'ishamol, 12."
-msgstr "Улица Богишамол, 12"
+msgid ""
+"\n"
+"\t\t\t\t\t\t\t\t\t\tStreet Bog'ishamol, 12.\n"
+"\t\t\t\t\t\t\t\t\t\tAlmaota shahri. Ojet bozori, 1 rayd 26-27 dukon.\n"
+"\t\t\t\t\t\t\t\t\t"
+msgstr ""
 
-#: templates/parts/footer.html:44
+#: templates/parts/footer.html:42
+msgid "Toshkent shahri"
+msgstr ""
+
+#: templates/parts/footer.html:52
 msgid "Site developed by"
 msgstr "Сайт разработан <br>дизайн - студией"
 
-#: templates/parts/footer.html:56
+#: templates/parts/footer.html:64
 msgid "Copyright"
 msgstr ""
 
-#: templates/parts/footer.html:56
+#: templates/parts/footer.html:64
 msgid "All rights reserved"
 msgstr "Все права защищены"
 
@@ -412,6 +420,9 @@ msgstr "Партнер"
 #: users/models.py:96
 msgid "Partners"
 msgstr "Партнеры"
+
+#~ msgid "Street Bog'ishamol, 12."
+#~ msgstr "Улица Богишамол, 12"
 
 #~ msgid "Producer"
 #~ msgstr "Производитель"
