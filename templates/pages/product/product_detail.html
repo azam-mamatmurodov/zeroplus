@@ -37,21 +37,21 @@
                 <div class="description">
                     <table class="shop_attributes">
                         <tbody>
-                        <tr>
-                            <td>{% trans 'Price' %}:</td>
-                            <td>
-                                {% if product.is_sale %}
-                                    <span class="real_price">
-                                        {{ product.get_price }}
-                                    </span> -
-                                    <span class="sale_price">
-                                        {{ product.price|get_sale_price|floatformat|intcomma }} {% trans 'soum' %}
-                                    </span>
-                                {% else %}
+                        {% if product.is_sale %}
+                            <span class="real_price">
+                                {{ product.get_price }}
+                            </span> -
+                            <span class="sale_price">
+                                {{ product.price|get_sale_price|floatformat|intcomma }} {% trans 'soum' %}
+                            </span>
+                        {% else %}
+                            <tr>
+                                <td>{% trans 'Price' %}:</td>
+                                <td>
                                     {{ product.get_price }}
-                                {% endif %}
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
+                        {% endif %}
                             {% if product.colors.all %}
                                 <tr>
                                     <td>{% trans 'Colors' %}:</td>
