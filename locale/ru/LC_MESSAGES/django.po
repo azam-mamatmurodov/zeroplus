@@ -329,7 +329,7 @@ msgstr "Наманганский городской филиал"
 #: templates/parts/footer.html:31
 msgid ""
 "Street Bog'ishamol, 12.<br>Almaota city. Ojet market,<br>1 line 26-27 shop."
-msgstr "Улица Bog'ishamol, 12. <br> Город Алмаота. Ojet market, <br> ряд 1, 26-27 магазин."
+msgstr "Улица Богишамол, 12. <br> Город Алмаота. Ожет маркет, <br> ряд 1, 26-27 магазин."
 
 #: templates/parts/footer.html:39
 msgid "Tashkent city"
