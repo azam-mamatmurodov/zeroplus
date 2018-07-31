@@ -95,12 +95,12 @@
                                             {{ sale_product.name }}
                                         </p>
                                     </a>
-                                    <p class="bText">
-                                    <span>
-                                        <del> {{ sale_product.price|floatformat|intcomma }} {% trans 'soum' %}</del>
-                                    </span>
-                                        {{ sale_product.price|get_sale_price|floatformat|intcomma }} {% trans 'soum' %}
-                                    </p>
+{#                                    <p class="bText">#}
+{#                                    <span>#}
+{#                                        <del> {{ sale_product.price|floatformat|intcomma }} {% trans 'soum' %}</del>#}
+{#                                    </span>#}
+{#                                        {{ sale_product.price|get_sale_price|floatformat|intcomma }} {% trans 'soum' %}#}
+{#                                    </p>#}
                                     <button class="addToCart  cart_add"
                                             data-image="{{ sale_product.get_default_image.file.url }}"
                                             data-product="{{ sale_product.id }}">
