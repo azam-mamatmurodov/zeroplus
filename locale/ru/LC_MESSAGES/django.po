@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-26 15:40+0500\n"
+"POT-Creation-Date: 2018-07-31 13:23+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -140,7 +140,7 @@ msgid "Available in stock"
 msgstr "Доступно на складе"
 
 #: products/models.py:117 templates/pages/orders/cart.html:19
-#: templates/pages/product/product_detail.html:41
+#: templates/pages/product/product_detail.html:49
 msgid "Price"
 msgstr "Цена"
 
@@ -149,13 +149,10 @@ msgid "Quantity"
 msgstr "Количество"
 
 #: products/models.py:138 rest_app/views.py:211 templates/pages/main.html:73
-#: templates/pages/main.html:100 templates/pages/main.html:102
 #: templates/pages/orders/cart.html:73 templates/pages/orders/cart.html:79
 #: templates/pages/orders/cart.html:92 templates/pages/orders/checkout.html:18
 #: templates/pages/orders/checkout.html:23
-#: templates/pages/product/product_detail.html:48
-#: templates/pages/product/product_list.html:100
-#: templates/pages/product/product_list.html:102
+#: templates/pages/product/product_detail.html:45
 #: templates/restapp/cart_list.html:20 templates/restapp/cart_list.html:33
 msgid "soum"
 msgstr "сум"
@@ -331,25 +328,22 @@ msgstr "Наманганский городской филиал"
 
 #: templates/parts/footer.html:31
 msgid ""
-"\n"
-"\t\t\t\t\t\t\t\t\t\tStreet Bog'ishamol, 12.\n"
-"\t\t\t\t\t\t\t\t\t\tAlmaota shahri. Ojet bozori, 1 rayd 26-27 dukon.\n"
-"\t\t\t\t\t\t\t\t\t"
-msgstr ""
+"Street Bog'ishamol, 12.<br>Almaota city. Ojet market,<br>1 line 26-27 shop."
+msgstr "Улица Bog'ishamol, 12. <br> Город Алмаота. Ojet market, <br> ряд 1, 26-27 магазин."
 
-#: templates/parts/footer.html:42
-msgid "Toshkent shahri"
-msgstr ""
+#: templates/parts/footer.html:39
+msgid "Tashkent city"
+msgstr "Г. Ташкент"
 
-#: templates/parts/footer.html:52
+#: templates/parts/footer.html:49
 msgid "Site developed by"
 msgstr "Сайт разработан <br>дизайн - студией"
 
-#: templates/parts/footer.html:64
+#: templates/parts/footer.html:61
 msgid "Copyright"
 msgstr ""
 
-#: templates/parts/footer.html:64
+#: templates/parts/footer.html:61
 msgid "All rights reserved"
 msgstr "Все права защищены"
 
