@@ -30,8 +30,7 @@
     $(document).ready(function () {
 
         $.notify.defaults({
-            className: 'success',
-            elementPosition: 'bottom left'
+            className: 'success'
         });
         var csrftoken = Cookies.get('csrftoken')
         function csrfSafeMethod(method)
@@ -60,7 +59,7 @@
         }
         window.onload = function (ev) {
             get_cart_and_set();
-        }
+        };
 
         $(document).on('click', '.cart_add', function (e) {
             var this_target = $(this);
