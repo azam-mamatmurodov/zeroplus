@@ -60,6 +60,13 @@ class Category(MPTTModel, TranslatableModel):
                 cats.append(child.pk)
         return Product.objects.filter(category__in=cats)
 
+    @property
+    def get_related_four_products(self):
+        cats = [self.pk]
+        if self.get_children():
+            for child in self.get_children():
+                cats.append(child.pk)
+        return Product.objects.filter(category__in=cats)[0:4]
 
 
 class Color(TranslatableModel):

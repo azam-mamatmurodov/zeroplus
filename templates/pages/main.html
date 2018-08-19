@@ -61,22 +61,25 @@
     </div>
     <div class="goods">
         <div class="container">
-            <div class="row">
-                {% for product in products %}
-                    <div class="col-md-3 col-sm-6">
-                        <div class="block">
-                            <a href="{{ product.get_absolute_url }}">
-                                <img src="{% thumbnail product.get_default_image.file 261x244 crop %}" alt=""
-                                     class="bImg">
-                                <p class="blockTxt">{{ product.name }}</p>
-                            </a>
-                            <p class="bText">{{ product.price|floatformat|intcomma }} {% trans 'soum' %}</p>
-                            <button class="addToCart cart_add" data-image="{{ product.get_default_image.file.url }}"
-                                    data-product="{{ product.id }}">{% trans 'Add to cart' %}</button>
+            {% for category in categories %}
+                <div class="row">
+                    <h3 class="category-title text-center">{{ category.name }}</h3>
+                    {% for product in category.get_related_four_products %}
+                        <div class="col-md-3 col-sm-6">
+                            <div class="block">
+                                <a href="{{ product.get_absolute_url }}">
+                                    <img src="{% thumbnail product.get_default_image.file 261x244 crop %}" alt=""
+                                         class="bImg">
+                                    <p class="blockTxt">{{ product.name }}</p>
+                                </a>
+                                <p class="bText">{{ product.price|floatformat|intcomma }} {% trans 'soum' %}</p>
+                                <button class="addToCart cart_add" data-image="{{ product.get_default_image.file.url }}"
+                                        data-product="{{ product.id }}">{% trans 'Add to cart' %}</button>
+                            </div>
                         </div>
-                    </div>
-                {% endfor %}
-            </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
         </div>
     </div>
     {% if sale_products.exists %}

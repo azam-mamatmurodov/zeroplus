@@ -5,6 +5,7 @@ $(document).ready(function() {
         nav:true,
         autoplay:true,
         autoplayspeed:1000,
+        animateOut: 'fadeOut',
         loop:true,
         autoplaytimeout: 1000,
         autoplayHoverPause: false
