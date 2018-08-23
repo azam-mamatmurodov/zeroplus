@@ -8,6 +8,7 @@ __pycache__/
 templates/new/*
 # C extensions
 *.so
+media/
 
 # Distribution / packaging
 .Python
